@@ -21,7 +21,7 @@ const navigation: NavigationItem[] = [
       { title: 'VALUATION ADVISORY', href: '/services/valuation-advisory' },
       { title: 'CAPITAL ADVISORY', href: '/services/capital-advisory' },
       { title: 'MERGER & ACQUISITION', href: '/services/merger-acquisition' },
-      { title: 'FINANCIAL STRATEGY & CORPORATE ADVISORY', href: '/services/financial-strategy' },
+      { title: 'Financial Strategy & Corporate Advisory', href: '/services/financial-strategy' },
     ],
   },
   { title: 'NETWORK', href: '/network' },

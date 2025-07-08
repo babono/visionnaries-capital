@@ -3,29 +3,26 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import { getPageContent, PAGE_IDS } from "../../lib/notion";
 
-// Define types for Notion data
-interface NotionRichText {
-  type: string;
-  plain_text: string;
-  text?: {
-    content: string;
-  };
-}
-
-interface NotionBlock {
+// Define types for Notion database
+interface NotionDatabaseItem {
   id: string;
-  type: string;
-  heading_2?: {
-    rich_text: NotionRichText[];
+  properties: {
+    [key: string]: {
+      title?: Array<{ plain_text: string }>;
+      select?: { name: string };
+      multi_select?: Array<{ name: string }>;
+      rich_text?: Array<{ plain_text: string }>;
+      files?: Array<{
+        file?: { url: string };
+        external?: { url: string };
+      }>;
+    };
   };
-  paragraph?: {
-    rich_text: NotionRichText[];
-  };
-  [key: string]: unknown;
 }
 
 interface Project {
@@ -33,98 +30,98 @@ interface Project {
   name: string;
   category: string;
   description?: string;
+  thumbnail?: string;
 }
 
-// Helper function to extract text from Notion rich text
-function extractTextFromRichText(richText: NotionRichText[]): string {
-  return richText?.map((text: NotionRichText) => text.plain_text).join('') || '';
-}
+// Helper function to generate thumbnail placeholder
+function generateThumbnail(projectName: string, category: string): string {
+  // Generate colors based on the category
+  const colors = {
+    "Capital Advisory": { start: "#3B82F6", end: "#1E40AF" },
+    "Financial Strategy & Corporate Advisory": {
+      start: "#10B981",
+      end: "#047857",
+    },
+    "Merger & Acquisition": { start: "#8B5CF6", end: "#5B21B6" },
+    "Valuation Advisory": { start: "#F59E0B", end: "#D97706" },
+  };
 
-// Helper function to parse Notion content into projects
-function parseNotionContent(blocks: NotionBlock[]): Project[] {
-  const projects: Project[] = [];
-  let currentProject: Partial<Project> = {};
-  let projectIndex = 0;
+  const categoryColors = colors[category as keyof typeof colors] || {
+    start: "#6B7280",
+    end: "#374151",
+  };
 
-  blocks.forEach((block) => {
-    if (block.type === 'heading_2' && block.heading_2) {
-      // New project starts
-      if (currentProject.name) {
-        projects.push({
-          id: String(projectIndex + 1),
-          name: currentProject.name || '',
-          category: currentProject.category || 'Financial Strategy & Corporate Advisory',
-          description: currentProject.description || '',
-        });
-        projectIndex++;
-      }
-      currentProject = {
-        name: extractTextFromRichText(block.heading_2.rich_text),
-      };
-    } else if (block.type === 'paragraph' && block.paragraph) {
-      const text = extractTextFromRichText(block.paragraph.rich_text);
-      if (text.startsWith('Category:')) {
-        currentProject.category = text.replace('Category:', '').trim();
-      } else if (text.startsWith('Description:')) {
-        currentProject.description = text.replace('Description:', '').trim();
-      } else if (text && !currentProject.category) {
-        // If no explicit category is set, try to infer from content
-        if (text.includes('Capital Advisory') || text.includes('capital')) {
-          currentProject.category = 'Capital Advisory';
-        } else if (text.includes('M&A') || text.includes('Merger') || text.includes('Acquisition')) {
-          currentProject.category = 'Merger & Acquisition';
-        } else if (text.includes('Valuation')) {
-          currentProject.category = 'Valuation Advisory';
-        } else {
-          currentProject.category = 'Financial Strategy & Corporate Advisory';
+  return `data:image/svg+xml;base64,${btoa(`
+    <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:${
+            categoryColors.start
+          };stop-opacity:1" />
+          <stop offset="100%" style="stop-color:${
+            categoryColors.end
+          };stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <rect width="300" height="200" fill="url(#grad)"/>
+      <text x="150" y="100" text-anchor="middle" dominant-baseline="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">
+        ${
+          projectName.length > 20
+            ? projectName.substring(0, 20) + "..."
+            : projectName
         }
-      }
-    }
-  });
+      </text>
+      <text x="150" y="130" text-anchor="middle" dominant-baseline="middle" fill="white" font-family="Arial, sans-serif" font-size="12" opacity="0.8">
+        ${category.split(" ")[0]} ${category.split(" ")[1] || ""}
+      </text>
+    </svg>
+  `)}`;
+}
 
-  // Add the last project
-  if (currentProject.name) {
+// Helper function to parse Notion database into projects
+function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
+  const projects: Project[] = [];
+
+  databaseResults.forEach((item, index) => {
+    // Extract properties from database item
+    const properties = item.properties || {};
+
+    // Get project name from "Name" property (title type)
+    const nameProperty = properties.Name;
+    const projectName =
+      nameProperty?.title?.[0]?.plain_text || `Project ${index + 1}`;
+
+    // Get category from "Type" property (multi_select type)
+    const typeProperty = properties.Type;
+    const category =
+      typeProperty?.multi_select?.[0]?.name ||
+      "Financial Strategy & Corporate Advisory";
+
+    // Get thumbnail from "Thumbnail" property (files type)
+    const thumbnailProperty = properties.Thumbnail;
+    const thumbnail =
+      thumbnailProperty?.files?.[0]?.external?.url ||
+      thumbnailProperty?.files?.[0]?.file?.url ||
+      generateThumbnail(projectName, category);
+
     projects.push({
-      id: String(projectIndex + 1),
-      name: currentProject.name || '',
-      category: currentProject.category || 'Financial Strategy & Corporate Advisory',
-      description: currentProject.description || '',
+      id: item.id || String(index + 1),
+      name: projectName,
+      category: category,
+      description: "", // Remove description
+      thumbnail: thumbnail,
     });
-  }
+  });
 
   return projects;
 }
-
-// Fallback data matching the original website
-const fallbackProjects: Project[] = [
-  { id: "1", name: "Project Social", category: "Financial Strategy & Corporate Advisory" },
-  { id: "2", name: "Project Message", category: "Financial Strategy & Corporate Advisory" },
-  { id: "3", name: "Project Shoes", category: "Financial Strategy & Corporate Advisory" },
-  { id: "4", name: "Project Paste", category: "Financial Strategy & Corporate Advisory" },
-  { id: "5", name: "Project Refurbishment", category: "Financial Strategy & Corporate Advisory" },
-  { id: "6", name: "Project P2B", category: "Financial Strategy & Corporate Advisory" },
-  { id: "7", name: "Project Clean Room", category: "Financial Strategy & Corporate Advisory" },
-  { id: "8", name: "Project Valves", category: "Financial Strategy & Corporate Advisory" },
-  { id: "9", name: "W-Locate", category: "Financial Strategy & Corporate Advisory" },
-  { id: "10", name: "Project Ed Care", category: "Capital Advisory" },
-  { id: "11", name: "Project Shin", category: "Merger & Acquisition" },
-  { id: "12", name: "Project Seals", category: "Merger & Acquisition" },
-  { id: "13", name: "12 Cup Cakes", category: "Merger & Acquisition" },
-  { id: "14", name: "Qoo 10", category: "Capital Advisory" },
-  { id: "15", name: "My Republic", category: "Capital Advisory" },
-  { id: "16", name: "Project Alpha", category: "Valuation Advisory" },
-  { id: "17", name: "Project Beta", category: "Capital Advisory" },
-  { id: "18", name: "Project Gamma", category: "Merger & Acquisition" },
-  { id: "19", name: "Project Delta", category: "Financial Strategy & Corporate Advisory" },
-  { id: "20", name: "Project Epsilon", category: "Valuation Advisory" },
-];
 
 const categories = [
   "All",
   "Capital Advisory",
   "Financial Strategy & Corporate Advisory",
   "Merger & Acquisition",
-  "Valuation Advisory"
+  "Valuation Advisory",
 ];
 
 const ITEMS_PER_PAGE = 9;
@@ -132,14 +129,11 @@ const ITEMS_PER_PAGE = 9;
 // Skeleton Component
 function ProjectSkeleton() {
   return (
-    <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-6 animate-pulse">
-      <div className="mb-4">
-        <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
-        <div className="h-4 bg-gray-100 rounded w-1/2"></div>
-      </div>
-      <div className="space-y-2">
-        <div className="h-4 bg-gray-100 rounded w-full"></div>
-        <div className="h-4 bg-gray-100 rounded w-2/3"></div>
+    <div className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
+      <div className="h-48 bg-gray-200 animate-pulse" />
+      <div className="p-4">
+        <div className="h-6 bg-gray-200 rounded w-2/3 mb-2 animate-pulse" />
+        <div className="h-4 bg-gray-100 rounded w-1/3 animate-pulse" />
       </div>
     </div>
   );
@@ -152,21 +146,36 @@ export default function TrackRecord() {
   useEffect(() => {
     async function fetchProjects() {
       setLoading(true);
+
       try {
-        if (PAGE_IDS.TRACK_RECORD) {
-          const notionBlocks = await getPageContent(PAGE_IDS.TRACK_RECORD);
-          const parsedProjects = parseNotionContent(notionBlocks as NotionBlock[]);
-          if (parsedProjects.length > 0) {
-            setProjects(parsedProjects);
-          } else {
-            setProjects(fallbackProjects);
-          }
+        const response = await fetch("/api/projects");
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          setProjects([]);
+          return;
+        }
+
+        if (!data.projects || data.projects.length === 0) {
+          setProjects([]);
+          return;
+        }
+
+        const parsedProjects = parseNotionDatabase(
+          data.projects as NotionDatabaseItem[]
+        );
+
+        if (parsedProjects.length > 0) {
+          setProjects([...parsedProjects].reverse());
         } else {
-          setProjects(fallbackProjects);
+          setProjects([]);
         }
       } catch (error) {
-        console.error('Error fetching track record from Notion:', error);
-        setProjects(fallbackProjects);
+        if (error instanceof Error) {
+          console.error("Error message:", error.message);
+          console.error("Error stack:", error.stack);
+        }
+        setProjects([]);
       } finally {
         setLoading(false);
       }
@@ -184,13 +193,20 @@ export default function TrackRecord() {
   );
 }
 
-function TrackRecordContent({ projects, loading }: { projects: Project[]; loading: boolean }) {
+function TrackRecordContent({
+  projects,
+  loading,
+}: {
+  projects: Project[];
+  loading: boolean;
+}) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const filteredProjects = selectedCategory === "All" 
-    ? projects 
-    : projects.filter(project => project.category === selectedCategory);
+  const filteredProjects =
+    selectedCategory === "All"
+      ? projects
+      : projects.filter((project) => project.category === selectedCategory);
 
   const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -205,13 +221,13 @@ function TrackRecordContent({ projects, loading }: { projects: Project[]; loadin
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     // Smooth scroll to top of projects section
-    window.scrollTo({ top: 300, behavior: 'smooth' });
+    window.scrollTo({ top: 300, behavior: "smooth" });
   };
 
   const generatePageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 5;
-    
+
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
@@ -221,25 +237,25 @@ function TrackRecordContent({ projects, loading }: { projects: Project[]; loadin
         for (let i = 1; i <= 4; i++) {
           pages.push(i);
         }
-        pages.push('...');
+        pages.push("...");
         pages.push(totalPages);
       } else if (currentPage >= totalPages - 2) {
         pages.push(1);
-        pages.push('...');
+        pages.push("...");
         for (let i = totalPages - 3; i <= totalPages; i++) {
           pages.push(i);
         }
       } else {
         pages.push(1);
-        pages.push('...');
+        pages.push("...");
         for (let i = currentPage - 1; i <= currentPage + 1; i++) {
           pages.push(i);
         }
-        pages.push('...');
+        pages.push("...");
         pages.push(totalPages);
       }
     }
-    
+
     return pages;
   };
 
@@ -252,9 +268,6 @@ function TrackRecordContent({ projects, loading }: { projects: Project[]; loadin
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Track Record
             </h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-blue-100">
-              Our portfolio of successful projects and transactions
-            </p>
           </div>
         </div>
       </section>
@@ -262,7 +275,7 @@ function TrackRecordContent({ projects, loading }: { projects: Project[]; loadin
       {/* Filter Section */}
       <section className="py-8 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-4 mb-4">
             {categories.map((category) => (
               <button
                 key={category}
@@ -295,21 +308,37 @@ function TrackRecordContent({ projects, loading }: { projects: Project[]; loadin
                 {currentProjects.map((project) => (
                   <div
                     key={project.id}
-                    className="bg-white rounded-lg shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-shadow duration-300"
+                    className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer group"
                   >
-                    <div className="mb-4">
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">
-                        {project.name}
-                      </h3>
-                      <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
-                        {project.category}
-                      </span>
+                    {/* Thumbnail */}
+                    <div className="relative h-48 overflow-hidden group">
+                      <Image
+                        src={project.thumbnail || generateThumbnail(project.name, project.category)}
+                        alt={project.name}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-110"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        style={{ objectFit: "cover" }}
+                      />
+                      {/* Overlay and Centered Text (hover effect, if needed) */}
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div className="w-full h-full bg-black transition-all duration-300 opacity-0 group-hover:opacity-60 absolute inset-0"></div>
+                        <span className="text-white text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center px-4 z-10">
+                          {project.name}
+                        </span>
+                      </div>
                     </div>
-                    {project.description && (
-                      <p className="text-gray-600 text-sm">
-                        {project.description}
-                      </p>
-                    )}
+                    {/* Content */}
+                    <div className="p-4">
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">
+                          {project.name}
+                        </h3>
+                        <div className="text-blue-700 italic text-sm">
+                          {project.category}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -336,12 +365,14 @@ function TrackRecordContent({ projects, loading }: { projects: Project[]; loadin
                     {generatePageNumbers().map((page, index) => (
                       <button
                         key={index}
-                        onClick={() => typeof page === 'number' && handlePageChange(page)}
-                        disabled={page === '...'}
+                        onClick={() =>
+                          typeof page === "number" && handlePageChange(page)
+                        }
+                        disabled={page === "..."}
                         className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                           page === currentPage
                             ? "bg-blue-600 text-white"
-                            : page === '...'
+                            : page === "..."
                             ? "bg-white text-gray-400 cursor-default"
                             : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
                         }`}
@@ -368,14 +399,22 @@ function TrackRecordContent({ projects, loading }: { projects: Project[]; loadin
               )}
 
               {/* Results Info */}
-              <div className="mt-8 text-center text-gray-600">
-                Showing {startIndex + 1} to {Math.min(endIndex, filteredProjects.length)} of {filteredProjects.length} projects
-                {selectedCategory !== "All" && (
-                  <span className="ml-2">
-                    in <span className="font-medium">{selectedCategory}</span>
-                  </span>
-                )}
-              </div>
+              {filteredProjects.length > 0 && (
+                <div className="mt-8 text-center text-gray-600">
+                  Showing {startIndex + 1} to {Math.min(endIndex, filteredProjects.length)} of {filteredProjects.length} projects
+                  {selectedCategory !== "All" && (
+                    <span className="ml-2">
+                      in <span className="font-medium">{selectedCategory}</span>
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {!loading && filteredProjects.length === 0 && (
+                <div className="text-center text-gray-500 py-16 text-lg">
+                  No data found.
+                </div>
+              )}
             </>
           )}
         </div>
