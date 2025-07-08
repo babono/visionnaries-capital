@@ -11,22 +11,22 @@ const navigation: NavigationItem[] = [
     href: '#',
     children: [
       { title: 'CORPORATE PROFILE', href: '/about/corporate-profile' },
-      { title: 'FOUNDER\'S PROFILE', href: '/about/founders-profile' },
+      { title: "FOUNDER'S PROFILE", href: '/about/founders-profile' },
     ],
   },
   {
     title: 'SERVICES',
-    href: '#',
+    href: '/services',
     children: [
       { title: 'VALUATION ADVISORY', href: '/services/valuation-advisory' },
       { title: 'CAPITAL ADVISORY', href: '/services/capital-advisory' },
       { title: 'MERGER & ACQUISITION', href: '/services/merger-acquisition' },
-      { title: 'Financial Strategy & Corporate Advisory', href: '/services/financial-strategy' },
+      { title: 'FINANCIAL STRATEGY & CORPORATE ADVISORY', href: '/services/financial-strategy' },
     ],
   },
   { title: 'NETWORK', href: '/network' },
   { title: 'TRACK RECORD', href: '/track-record' },
-  { title: 'LIVE TRANSACTIONS', href: '/live-transactions' },
+  { title: 'LIVE TRANSACTIONS', href: '/current-transactions' },
 ];
 
 export default function Header() {
@@ -63,19 +63,34 @@ export default function Header() {
           <nav className="hidden lg:flex items-center space-x-8">
             {navigation.map((item) => (
               <div key={item.title} className="relative group">
-                <button
-                  className={`flex items-center text-sm font-medium transition-colors duration-200 ${
-                    scrolled
-                      ? 'text-gray-900 hover:text-blue-600'
-                      : 'text-white hover:text-blue-200'
-                  }`}
-                >
-                  {item.title}
-                  {item.children && (
-                    <ChevronDown className="ml-1 h-4 w-4 transition-transform group-hover:rotate-180" />
-                  )}
-                </button>
-
+                {item.href !== '#' ? (
+                  <Link
+                    href={item.href}
+                    className={`flex items-center text-sm font-medium transition-colors duration-200 ${
+                      scrolled
+                        ? 'text-gray-900 hover:text-blue-600'
+                        : 'text-white hover:text-blue-200'
+                    }`}
+                  >
+                    {item.title}
+                    {item.children && (
+                      <ChevronDown className="ml-1 h-4 w-4 transition-transform group-hover:rotate-180" />
+                    )}
+                  </Link>
+                ) : (
+                  <button
+                    className={`flex items-center text-sm font-medium transition-colors duration-200 ${
+                      scrolled
+                        ? 'text-gray-900 hover:text-blue-600'
+                        : 'text-white hover:text-blue-200'
+                    }`}
+                  >
+                    {item.title}
+                    {item.children && (
+                      <ChevronDown className="ml-1 h-4 w-4 transition-transform group-hover:rotate-180" />
+                    )}
+                  </button>
+                )}
                 {/* Dropdown Menu */}
                 {item.children && (
                   <div className="absolute left-0 mt-2 w-64 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
