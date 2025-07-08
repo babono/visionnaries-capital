@@ -49,7 +49,7 @@ export interface PageContent {
 export interface NotionBlock {
   id: string;
   type: string;
-  content: any;
+  content: string | number | boolean | object | null;
   children?: NotionBlock[];
 }
 

@@ -240,7 +240,7 @@ export default function Home() {
               </p>
               <p className="text-gray-600 text-sm mb-4">
                 Successfully raised S$5 million in equity within six months for a 
-                healthcare technology startup in Singapore's early-stage ecosystem.
+                healthcare technology startup in Singapore`s early-stage ecosystem.
               </p>
               <div className="flex items-center text-blue-600 text-sm font-medium">
                 <span>Valuation Advisory | Capital Advisory</span>
