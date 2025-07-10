@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import Link from "next/link";
 
 // Types
 interface NotionDatabaseItem {
@@ -30,6 +31,7 @@ interface Project {
   name: string;
   category: string;
   description: string;
+  brief: string;
   thumbnail?: string;
   url?: string;
   label?: string;
@@ -81,6 +83,8 @@ function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
     const category = typeProperty?.select?.name || typeProperty?.multi_select?.[0]?.name || "Growth Capital";
     const descriptionProperty = properties.Description;
     const description = descriptionProperty?.rich_text?.[0]?.plain_text || "";
+    const briefProperty = properties.Brief;
+    const brief = briefProperty?.rich_text?.[0]?.plain_text || "";
     const thumbnailProperty = properties.Thumbnail;
     const thumbnail = thumbnailProperty?.files?.[0]?.external?.url || thumbnailProperty?.files?.[0]?.file?.url || generateThumbnail(projectName, category);
     const url = item.url || properties.URL?.url || undefined;
@@ -94,6 +98,7 @@ function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
       name: projectName,
       category,
       description,
+      brief,
       thumbnail,
       url,
       label,
@@ -101,6 +106,10 @@ function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
     });
   });
   return projects;
+}
+
+function toSlug(name: string) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
 const categories = [
@@ -147,7 +156,7 @@ export default function LiveTransactions() {
           return;
         }
         const parsedProjects = parseNotionDatabase(data.projects as NotionDatabaseItem[]);
-        setProjects(parsedProjects);
+        setProjects([...parsedProjects].reverse());
       } catch {
         setProjects([]);
       } finally {
@@ -225,7 +234,7 @@ function LiveTransactionsContent({ projects, loading }: { projects: Project[]; l
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white pt-20">
+      <section className="text-white pt-20" style={{ background: 'linear-gradient(to right, #122a5e, #455781)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">Live Transactions</h1>
@@ -267,59 +276,60 @@ function LiveTransactionsContent({ projects, loading }: { projects: Project[]; l
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {currentProjects.map((project) => (
-                  <div
-                    key={project.id}
-                    className="flex flex-col h-full bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer group"
-                  >
-                    {/* Thumbnail */}
-                    <div className="relative h-48 overflow-hidden group">
-                      <Image
-                        src={project.thumbnail || generateThumbnail(project.name, project.category)}
-                        alt={project.name}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-110"
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        style={{ objectFit: "cover" }}
-                      />
-                      {/* Overlay and Centered Text */}
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div className="w-full h-full bg-black transition-all duration-300 opacity-0 group-hover:opacity-60 absolute inset-0"></div>
-                        <span className="text-white text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center px-4 z-10">
-                          {project.name}
-                        </span>
-                      </div>
-                    </div>
-                    {/* Content */}
-                    <div className="p-4 flex flex-col flex-1">
-                      <h3 className="text-xl font-bold text-gray-900 mb-1">
-                        {project.name}
-                      </h3>
-                      <div className="text-blue-700 italic text-sm mb-2">
-                        {project.category}
-                      </div>
-                      {project.label && project.value && (
-                        <div className="mb-2">
-                          <span className="font-bold">{project.label}:</span>{' '}
-                          <span className="font-semibold">{project.value}</span>
+                  <Link href={`/portfolio/${toSlug(project.name)}`} key={project.id} className="h-full">
+                    <div className="flex flex-col h-full bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer group">
+                      {/* Thumbnail */}
+                      <div className="relative h-48 overflow-hidden group">
+                        <Image
+                          src={project.thumbnail || generateThumbnail(project.name, project.category)}
+                          alt={project.name}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-110"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          style={{ objectFit: "cover" }}
+                        />
+                        {/* Overlay and Centered Text */}
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                          <div className="w-full h-full bg-black transition-all duration-300 opacity-0 group-hover:opacity-60 absolute inset-0"></div>
+                          <span className="text-white text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center px-4 z-10">
+                            {project.name}
+                          </span>
                         </div>
-                      )}
-                      <p className="text-gray-600 text-sm line-clamp-3 mb-4">
-                        {project.description}
-                      </p>
-                      <div className="mt-auto">
-                        {project.url && (
-                          <a
-                            href={project.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-                          >
-                            Read More
-                          </a>
+                      </div>
+                      {/* Content */}
+                      <div className="p-4 flex flex-col flex-1">
+                        <h3 className="text-xl font-bold text-gray-900 mb-1">
+                          {project.name}
+                        </h3>
+                        <div className="text-blue-700 italic text-sm mb-2">
+                          {project.category}
+                        </div>
+                        {project.label && project.value && (
+                          <div className="mb-2">
+                            <span className="font-bold">{project.label}:</span>{' '}
+                            <span className="font-semibold">{project.value}</span>
+                          </div>
                         )}
+                        <p className="text-gray-600 text-sm line-clamp-3 mb-4">
+                          {project.brief || project.description}
+                        </p>
+                        <div className="mt-auto">
+                          {project.url && (
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                window.open(project.url, '_blank', 'noopener,noreferrer');
+                              }}
+                              className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                            >
+                              Read More
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
 
