@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { NavigationItem } from '../types/index';
 
@@ -31,32 +32,24 @@ const navigation: NavigationItem[] = [
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-lg'
-          : 'bg-transparent'
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+      style={{ backgroundColor: '#000f1c' }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
-            <div className="text-2xl font-bold text-gray-900">
-              Visionnaires Capital
-            </div>
+            <Image
+              src="/v_logo_hi.png"
+              alt="Visionnaires Capital"
+              width={200}
+              height={40}
+              className="h-8 lg:h-10 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -66,11 +59,7 @@ export default function Header() {
                 {item.href !== '#' ? (
                   <Link
                     href={item.href}
-                    className={`flex items-center text-sm font-medium transition-colors duration-200 ${
-                      scrolled
-                        ? 'text-gray-900 hover:text-blue-600'
-                        : 'text-white hover:text-blue-200'
-                    }`}
+                    className="flex items-center text-sm font-medium transition-colors duration-200 text-white hover:text-blue-200"
                   >
                     {item.title}
                     {item.children && (
@@ -79,11 +68,7 @@ export default function Header() {
                   </Link>
                 ) : (
                   <button
-                    className={`flex items-center text-sm font-medium transition-colors duration-200 ${
-                      scrolled
-                        ? 'text-gray-900 hover:text-blue-600'
-                        : 'text-white hover:text-blue-200'
-                    }`}
+                    className="flex items-center text-sm font-medium transition-colors duration-200 text-white hover:text-blue-200"
                   >
                     {item.title}
                     {item.children && (
@@ -114,11 +99,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`lg:hidden p-2 rounded-md transition-colors ${
-              scrolled
-                ? 'text-gray-900 hover:bg-gray-100'
-                : 'text-white hover:bg-white/10'
-            }`}
+            className="lg:hidden p-2 rounded-md transition-colors text-white hover:bg-white/10"
           >
             {isMenuOpen ? (
               <X className="h-6 w-6" />
@@ -131,11 +112,11 @@ export default function Header() {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-200">
+        <div className="lg:hidden border-t border-gray-700" style={{ backgroundColor: '#000f1c' }}>
           <div className="px-2 pt-2 pb-3 space-y-1">
             {navigation.map((item) => (
               <div key={item.title}>
-                <div className="text-gray-900 block px-3 py-2 text-base font-medium">
+                <div className="text-white block px-3 py-2 text-base font-medium">
                   {item.title}
                 </div>
                 {item.children && (
@@ -144,7 +125,7 @@ export default function Header() {
                       <Link
                         key={child.title}
                         href={child.href}
-                        className="text-gray-600 block px-3 py-2 text-sm hover:text-blue-600 transition-colors"
+                        className="text-gray-300 block px-3 py-2 text-sm hover:text-blue-200 transition-colors"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         {child.title}

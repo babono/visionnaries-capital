@@ -4,6 +4,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
@@ -116,6 +117,10 @@ function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
   return projects;
 }
 
+function toSlug(name: string) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
 const categories = [
   "All",
   "Capital Advisory",
@@ -148,7 +153,7 @@ export default function TrackRecord() {
       setLoading(true);
 
       try {
-        const response = await fetch("/api/projects");
+        const response = await fetch("/api/track-records");
         const data = await response.json();
 
         if (!response.ok || !data.success) {
@@ -262,7 +267,7 @@ function TrackRecordContent({
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white pt-20">
+      <section className="text-white pt-20" style={{ background: 'linear-gradient(to right, #122a5e, #455781)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -306,40 +311,39 @@ function TrackRecordContent({
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {currentProjects.map((project) => (
-                  <div
-                    key={project.id}
-                    className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer group"
-                  >
-                    {/* Thumbnail */}
-                    <div className="relative h-48 overflow-hidden group">
-                      <Image
-                        src={project.thumbnail || generateThumbnail(project.name, project.category)}
-                        alt={project.name}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-110"
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        style={{ objectFit: "cover" }}
-                      />
-                      {/* Overlay and Centered Text (hover effect, if needed) */}
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div className="w-full h-full bg-black transition-all duration-300 opacity-0 group-hover:opacity-60 absolute inset-0"></div>
-                        <span className="text-white text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center px-4 z-10">
-                          {project.name}
-                        </span>
+                  <Link href={`/portfolio/${toSlug(project.name)}`} key={project.id} className="h-full">
+                    <div className="flex flex-col h-full bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer group">
+                      {/* Thumbnail */}
+                      <div className="relative h-48 overflow-hidden group">
+                        <Image
+                          src={project.thumbnail || generateThumbnail(project.name, project.category)}
+                          alt={project.name}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-110"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          style={{ objectFit: "cover" }}
+                        />
+                        {/* Overlay and Centered Text (hover effect, if needed) */}
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                          <div className="w-full h-full bg-black transition-all duration-300 opacity-0 group-hover:opacity-60 absolute inset-0"></div>
+                          <span className="text-white text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center px-4 z-10">
+                            {project.name}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                    {/* Content */}
-                    <div className="p-4">
-                      <div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-2">
-                          {project.name}
-                        </h3>
-                        <div className="text-blue-700 italic text-sm">
-                          {project.category}
+                      {/* Content */}
+                      <div className="p-4">
+                        <div>
+                          <h3 className="text-xl font-bold text-gray-900 mb-2">
+                            {project.name}
+                          </h3>
+                          <div className="text-blue-700 italic text-sm">
+                            {project.category}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
 

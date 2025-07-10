@@ -9,7 +9,7 @@ export default function CorporateProfile() {
       <Header />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white pt-20">
+      <section className="text-white pt-20" style={{ background: 'linear-gradient(to right, #122a5e, #455781)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -146,7 +146,7 @@ export default function CorporateProfile() {
               <h3 className="text-xl font-bold text-gray-900 mb-4">Innovation</h3>
               <p className="text-gray-600">
                 We embrace innovation and creative thinking to develop customized solutions 
-                that address our clients' unique challenges and opportunities.
+                that address our clients&apos; unique challenges and opportunities.
               </p>
             </div>
           </div>
