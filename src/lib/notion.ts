@@ -8,7 +8,6 @@ export const notion = new Client({
 // Database IDs
 export const DATABASE_IDS = {
   TRACK_RECORDS: process.env.NOTION_DATABASE_ID_TRACK_RECORDS || '',
-  TRACK_RECORDS_NEW: process.env.NOTION_DATABASE_ID_TRACK_RECORDS_NEW || '',
   SUCCESS_STORIES: process.env.NOTION_DATABASE_ID_SUCCESS_STORIES || '',
   SERVICES: process.env.NOTION_DATABASE_ID_SERVICES || '',
   LIVE_TRANSACTIONS: process.env.NOTION_DATABASE_ID_LIVE_TRANSACTIONS || '',
