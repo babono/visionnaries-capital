@@ -230,7 +230,7 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
   }
 
   return (
-    <div className="relative py-20 bg-gray-50">
+    <div className="relative py-6 md:py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto">
         {/* Title */}
         <div className="mb-8 px-4 sm:px-6 lg:px-8">
@@ -414,55 +414,39 @@ function TrackRecordContent({
   projects: Project[];
   loading: boolean;
 }) {
-  if (loading) {
-    return (
-      <>
-        {/* Hero Section */}
-        <section
-          className="text-white pt-20"
-          style={{ background: "linear-gradient(to right, #122a5e, #455781)" }}
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                Track Record
-              </h1>
-            </div>
-          </div>
-        </section>
 
+  return (
+    <>
+      {/* Hero Section */}
+      <section
+        className="text-white pt-20 relative flex items-center justify-center h-[250px] md:h-[500px] py-0"
+        style={{
+          backgroundImage: "url('/page-title-background.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      >
+        {/* Overlay, opacity bisa diubah */}
+        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-left">
+            Track Record
+          </h1>
+        </div>
+      </section>
+      {loading ? (
         <div className="min-h-[500px] bg-gray-50 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">
               Loading Track Record
             </h2>
-            <p className="text-gray-600">
-              Please wait while we load our projects...
-            </p>
           </div>
         </div>
-      </>
-    );
-  }
-
-  return (
-    <>
-      {/* Hero Section */}
-      <section
-        className="text-white pt-20"
-        style={{ background: "linear-gradient(to right, #122a5e, #455781)" }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Track Record
-            </h1>
-          </div>
-        </div>
-      </section>
-
-      <FlickitySlider projects={projects} />
+      ) : (
+        <FlickitySlider projects={projects} />
+      )}
     </>
   );
 }
