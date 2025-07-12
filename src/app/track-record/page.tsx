@@ -1,13 +1,18 @@
 "use client";
 
-import React from "react";
-import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+
+// Type definition for Flickity
+interface FlickityInstance {
+  destroy(): void;
+  previous(): void;
+  next(): void;
+  resize(): void;
+}
 
 // Define types for Notion database
 interface NotionDatabaseItem {
@@ -18,6 +23,7 @@ interface NotionDatabaseItem {
       select?: { name: string };
       multi_select?: Array<{ name: string }>;
       rich_text?: Array<{ plain_text: string }>;
+      number?: number;
       files?: Array<{
         file?: { url: string };
         external?: { url: string };
@@ -28,117 +34,320 @@ interface NotionDatabaseItem {
 
 interface Project {
   id: string;
-  name: string;
-  category: string;
-  description?: string;
-  thumbnail?: string;
-}
-
-// Helper function to generate thumbnail placeholder
-function generateThumbnail(projectName: string, category: string): string {
-  // Generate colors based on the category
-  const colors = {
-    "Capital Advisory": { start: "#3B82F6", end: "#1E40AF" },
-    "Financial Strategy & Corporate Advisory": {
-      start: "#10B981",
-      end: "#047857",
-    },
-    "Merger & Acquisition": { start: "#8B5CF6", end: "#5B21B6" },
-    "Valuation Advisory": { start: "#F59E0B", end: "#D97706" },
-  };
-
-  const categoryColors = colors[category as keyof typeof colors] || {
-    start: "#6B7280",
-    end: "#374151",
-  };
-
-  return `data:image/svg+xml;base64,${btoa(`
-    <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:${
-            categoryColors.start
-          };stop-opacity:1" />
-          <stop offset="100%" style="stop-color:${
-            categoryColors.end
-          };stop-opacity:1" />
-        </linearGradient>
-      </defs>
-      <rect width="300" height="200" fill="url(#grad)"/>
-      <text x="150" y="100" text-anchor="middle" dominant-baseline="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">
-        ${
-          projectName.length > 20
-            ? projectName.substring(0, 20) + "..."
-            : projectName
-        }
-      </text>
-      <text x="150" y="130" text-anchor="middle" dominant-baseline="middle" fill="white" font-family="Arial, sans-serif" font-size="12" opacity="0.8">
-        ${category.split(" ")[0]} ${category.split(" ")[1] || ""}
-      </text>
-    </svg>
-  `)}`;
+  type: string;
+  logo1?: string;
+  text1?: string;
+  logo2?: string;
+  text2?: string;
+  year?: string;
 }
 
 // Helper function to parse Notion database into projects
 function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
   const projects: Project[] = [];
-
   databaseResults.forEach((item, index) => {
     // Extract properties from database item
     const properties = item.properties || {};
 
-    // Get project name from "Name" property (title type)
-    const nameProperty = properties.Name;
-    const projectName =
-      nameProperty?.title?.[0]?.plain_text || `Project ${index + 1}`;
-
-    // Get category from "Type" property (multi_select type)
+    // Get type from "Type" property
     const typeProperty = properties.Type;
-    const category =
-      typeProperty?.multi_select?.[0]?.name ||
-      "Financial Strategy & Corporate Advisory";
+    // Handle single select or no multi_select
+    const type = typeProperty?.multi_select?.[0]?.name || "";
 
-    // Get thumbnail from "Thumbnail" property (files type)
-    const thumbnailProperty = properties.Thumbnail;
-    const thumbnail =
-      thumbnailProperty?.files?.[0]?.external?.url ||
-      thumbnailProperty?.files?.[0]?.file?.url ||
-      generateThumbnail(projectName, category);
+    // Get other properties - try different naming variations
+    const logo1Property = properties["Logo 1"];
+    const logo1 =
+      logo1Property?.files?.[0]?.external?.url ||
+      logo1Property?.files?.[0]?.file?.url;
+
+    const text1Property = properties["Text 1"];
+    const text1 = text1Property?.rich_text?.[0]?.plain_text;
+
+    const logo2Property = properties["Logo 2"];
+    const logo2 =
+      logo2Property?.files?.[0]?.external?.url ||
+      logo2Property?.files?.[0]?.file?.url;
+
+    const text2Property = properties["Text 2"];
+    const text2 = text2Property?.rich_text?.[0]?.plain_text;
+
+    const yearProperty = properties.Year;
+    const year =
+      yearProperty?.number?.toString() ||
+      yearProperty?.rich_text?.[0]?.plain_text;
+
+
 
     projects.push({
       id: item.id || String(index + 1),
-      name: projectName,
-      category: category,
-      description: "", // Remove description
-      thumbnail: thumbnail,
+      type: type,
+      logo1: logo1,
+      text1: text1,
+      logo2: logo2,
+      text2: text2,
+      year: year,
     });
   });
 
   return projects;
 }
 
-function toSlug(name: string) {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-}
+// Flickity Slider Component
+function FlickitySlider({ projects }: { projects: Project[] }) {
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const flickityRef = useRef<FlickityInstance | null>(null);
 
-const categories = [
-  "All",
-  "Capital Advisory",
-  "Financial Strategy & Corporate Advisory",
-  "Merger & Acquisition",
-  "Valuation Advisory",
-];
+  useEffect(() => {
+    if (
+      carouselRef.current &&
+      projects.length > 0 &&
+      typeof window !== "undefined"
+    ) {
+      // Add resize listener for dynamic resizing
+      const handleResize = () => {
+        if (flickityRef.current) {
+          flickityRef.current.resize();
+        }
+      };
 
-const ITEMS_PER_PAGE = 9;
+      // Dynamic import for client-side only
+      import("flickity").then((FlickityModule) => {
+        const Flickity = FlickityModule.default;
 
-// Skeleton Component
-function ProjectSkeleton() {
+        // Initialize Flickity
+        flickityRef.current = new Flickity(carouselRef.current!, {
+          autoPlay: false,
+          pageDots: false,
+          wrapAround: true,
+          adaptiveHeight: false,
+          imagesLoaded: true,
+          cellAlign: "left",
+          groupCells: false,
+          contain: true,
+          prevNextButtons: false, // We'll use custom buttons
+          freeScroll: false,
+          percentPosition: false,
+          cellSelector: ".carousel-cell",
+          initialIndex: 0,
+          resize: true,
+          rightToLeft: false,
+        });
+
+        // Force resize and reposition after initialization
+        setTimeout(() => {
+          if (flickityRef.current) {
+            flickityRef.current.resize();
+            // Trigger window resize event to ensure proper sizing
+            window.dispatchEvent(new Event("resize"));
+          }
+        }, 100);
+
+        window.addEventListener("resize", handleResize);
+
+        // Add custom styles for responsive behavior
+        const style = document.createElement("style");
+        style.setAttribute("data-flickity-custom", "true");
+        style.textContent = `
+          .flickity-viewport {
+            transition: height 0.2s;
+            padding-bottom: 1rem;
+          }
+          .carousel-cell {
+            width: calc(25% - 1.125rem) !important;
+            margin-right: 1.5rem !important;
+            box-sizing: border-box !important;
+          }
+          .carousel-cell .card-content {
+            width: 100%;
+            height: 100%;
+            min-height: 500px;
+            margin-bottom: 1rem;
+          }
+          @media (max-width: 1024px) {
+            .carousel-cell {
+              width: calc(33.333% - 1rem) !important;
+              margin-right: 1.5rem !important;
+            }
+          }
+          @media (max-width: 768px) {
+            .carousel-cell {
+              width: 50% !important;
+              padding-right: 1.5rem !important;
+            }
+          }
+          @media (max-width: 480px) {
+            .carousel-cell {
+              width: 100% !important;
+              padding: 0 1rem !important;
+            }
+          }
+        `;
+        document.head.appendChild(style);
+      });
+
+      return () => {
+        if (flickityRef.current) {
+          flickityRef.current.destroy();
+        }
+        // Clean up style if it exists
+        const existingStyle = document.querySelector(
+          "style[data-flickity-custom]"
+        );
+        if (existingStyle) {
+          document.head.removeChild(existingStyle);
+        }
+        // Clean up resize listener
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+  }, [projects]);
+
+  const handlePrevious = () => {
+    if (flickityRef.current) {
+      flickityRef.current.previous();
+    }
+  };
+
+  const handleNext = () => {
+    if (flickityRef.current) {
+      flickityRef.current.next();
+    }
+  };
+
+  if (projects.length === 0) {
+    return (
+      <div className="relative py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Leadership across the largest and most complex situations
+            </h2>
+            <p className="text-gray-600">No projects available</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
-      <div className="h-48 bg-gray-200 animate-pulse" />
-      <div className="p-4">
-        <div className="h-6 bg-gray-200 rounded w-2/3 mb-2 animate-pulse" />
-        <div className="h-4 bg-gray-100 rounded w-1/3 animate-pulse" />
+    <div className="relative py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto">
+        {/* Title */}
+        <div className="mb-8 px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            Leadership across the largest and most complex situations
+          </h2>
+        </div>
+
+        {/* Navigation Buttons */}
+        <div className="flex justify-between items-center mb-8 px-4 sm:px-6 lg:px-8">
+          <button
+            onClick={handlePrevious}
+            className="flex items-center justify-center w-12 h-12 rounded-full bg-white border-2 border-gray-300 hover:border-blue-600 hover:bg-blue-50 transition-colors shadow-sm z-10"
+          >
+            <svg
+              className="w-6 h-6 text-gray-600 hover:text-blue-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+
+          <button
+            onClick={handleNext}
+            className="flex items-center justify-center w-12 h-12 rounded-full bg-white border-2 border-gray-300 hover:border-blue-600 hover:bg-blue-50 transition-colors shadow-sm z-10"
+          >
+            <svg
+              className="w-6 h-6 text-gray-600 hover:text-blue-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* Flickity Carousel */}
+        <div ref={carouselRef} className="carousel mb-16 px-0 sm:px-6 lg:px-8">
+          {projects.map((project, index) => (
+            <div
+              key={`project-${project.id}-${index}`}
+              className="carousel-cell"
+            >
+              <div className="card-content bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 h-full flex flex-col">
+                {/* Type */}
+                <div className="bg-blue-900 text-white text-center px-4 h-12 flex items-center justify-center">
+                  <h3 className="text-sm font-semibold uppercase tracking-wide leading-tight">
+                    {project.type || "No Type"}
+                  </h3>
+                </div>
+
+                {/* Content - grows to fill available space */}
+                <div className="p-6 text-center flex-grow space-y-6">
+                  {/* Logo 1 - only show if exists */}
+                  {project.logo1 && (
+                    <div className="relative h-20 flex items-center justify-center">
+                      <Image
+                        src={project.logo1}
+                        alt="Logo 1"
+                        fill
+                        className="object-contain"
+                        sizes="250px"
+                      />
+                    </div>
+                  )}
+
+                  {/* Text 1 - only show if exists */}
+                  {project.text1 && (
+                    <div className="text-gray-700 text-sm">
+                      <p className="leading-relaxed">{project.text1}</p>
+                    </div>
+                  )}
+
+                  {/* Logo 2 - only show if exists */}
+                  {project.logo2 && (
+                    <div className="relative h-20 flex items-center justify-center bg-gray-50 rounded">
+                      <Image
+                        src={project.logo2}
+                        alt="Logo 2"
+                        fill
+                        className="object-contain"
+                        sizes="200px"
+                      />
+                    </div>
+                  )}
+
+                  {/* Text 2 - only show if exists */}
+                  {project.text2 && (
+                    <div className="text-blue-600 text-lg font-semibold">
+                      {project.text2}
+                    </div>
+                  )}
+                </div>
+
+                {/* Year Footer - always at bottom */}
+                <div className="p-4 text-center">
+                  <div className="text-2xl font-bold text-blue-900">
+                    {project.year || "N/A"}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -171,7 +380,7 @@ export default function TrackRecord() {
         );
 
         if (parsedProjects.length > 0) {
-          setProjects([...parsedProjects].reverse());
+          setProjects([...parsedProjects]);
         } else {
           setProjects([]);
         }
@@ -205,69 +414,45 @@ function TrackRecordContent({
   projects: Project[];
   loading: boolean;
 }) {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [currentPage, setCurrentPage] = useState(1);
+  if (loading) {
+    return (
+      <>
+        {/* Hero Section */}
+        <section
+          className="text-white pt-20"
+          style={{ background: "linear-gradient(to right, #122a5e, #455781)" }}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div className="text-center">
+              <h1 className="text-4xl md:text-5xl font-bold mb-6">
+                Track Record
+              </h1>
+            </div>
+          </div>
+        </section>
 
-  const filteredProjects =
-    selectedCategory === "All"
-      ? projects
-      : projects.filter((project) => project.category === selectedCategory);
-
-  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentProjects = filteredProjects.slice(startIndex, endIndex);
-
-  // Reset to page 1 when category changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedCategory]);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    // Smooth scroll to top of projects section
-    window.scrollTo({ top: 300, behavior: "smooth" });
-  };
-
-  const generatePageNumbers = () => {
-    const pages = [];
-    const maxVisiblePages = 5;
-
-    if (totalPages <= maxVisiblePages) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      if (currentPage <= 3) {
-        for (let i = 1; i <= 4; i++) {
-          pages.push(i);
-        }
-        pages.push("...");
-        pages.push(totalPages);
-      } else if (currentPage >= totalPages - 2) {
-        pages.push(1);
-        pages.push("...");
-        for (let i = totalPages - 3; i <= totalPages; i++) {
-          pages.push(i);
-        }
-      } else {
-        pages.push(1);
-        pages.push("...");
-        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
-          pages.push(i);
-        }
-        pages.push("...");
-        pages.push(totalPages);
-      }
-    }
-
-    return pages;
-  };
+        <div className="min-h-[500px] bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              Loading Track Record
+            </h2>
+            <p className="text-gray-600">
+              Please wait while we load our projects...
+            </p>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
       {/* Hero Section */}
-      <section className="text-white pt-20" style={{ background: 'linear-gradient(to right, #122a5e, #455781)' }}>
+      <section
+        className="text-white pt-20"
+        style={{ background: "linear-gradient(to right, #122a5e, #455781)" }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -277,152 +462,7 @@ function TrackRecordContent({
         </div>
       </section>
 
-      {/* Filter Section */}
-      <section className="py-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-center gap-4 mb-4">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-3 rounded-lg font-medium transition-colors ${
-                  selectedCategory === category
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Grid */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {Array.from({ length: 9 }).map((_, index) => (
-                <ProjectSkeleton key={index} />
-              ))}
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {currentProjects.map((project) => (
-                  <Link href={`/portfolio/${toSlug(project.name)}`} key={project.id} className="h-full">
-                    <div className="flex flex-col h-full bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer group">
-                      {/* Thumbnail */}
-                      <div className="relative h-48 overflow-hidden group">
-                        <Image
-                          src={project.thumbnail || generateThumbnail(project.name, project.category)}
-                          alt={project.name}
-                          fill
-                          className="object-cover transition-transform duration-300 group-hover:scale-110"
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          style={{ objectFit: "cover" }}
-                        />
-                        {/* Overlay and Centered Text (hover effect, if needed) */}
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                          <div className="w-full h-full bg-black transition-all duration-300 opacity-0 group-hover:opacity-60 absolute inset-0"></div>
-                          <span className="text-white text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center px-4 z-10">
-                            {project.name}
-                          </span>
-                        </div>
-                      </div>
-                      {/* Content */}
-                      <div className="p-4">
-                        <div>
-                          <h3 className="text-xl font-bold text-gray-900 mb-2">
-                            {project.name}
-                          </h3>
-                          <div className="text-blue-700 italic text-sm">
-                            {project.category}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="mt-12 flex justify-center">
-                  <div className="flex items-center space-x-2">
-                    {/* Previous Button */}
-                    <button
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
-                      className={`flex items-center px-3 py-2 rounded-lg font-medium transition-colors ${
-                        currentPage === 1
-                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                          : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
-                      }`}
-                    >
-                      <ChevronLeft className="h-4 w-4 mr-1" />
-                      Previous
-                    </button>
-
-                    {/* Page Numbers */}
-                    {generatePageNumbers().map((page, index) => (
-                      <button
-                        key={index}
-                        onClick={() =>
-                          typeof page === "number" && handlePageChange(page)
-                        }
-                        disabled={page === "..."}
-                        className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                          page === currentPage
-                            ? "bg-blue-600 text-white"
-                            : page === "..."
-                            ? "bg-white text-gray-400 cursor-default"
-                            : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    ))}
-
-                    {/* Next Button */}
-                    <button
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                      className={`flex items-center px-3 py-2 rounded-lg font-medium transition-colors ${
-                        currentPage === totalPages
-                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                          : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
-                      }`}
-                    >
-                      Next
-                      <ChevronRight className="h-4 w-4 ml-1" />
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Results Info */}
-              {filteredProjects.length > 0 && (
-                <div className="mt-8 text-center text-gray-600">
-                  Showing {startIndex + 1} to {Math.min(endIndex, filteredProjects.length)} of {filteredProjects.length} projects
-                  {selectedCategory !== "All" && (
-                    <span className="ml-2">
-                      in <span className="font-medium">{selectedCategory}</span>
-                    </span>
-                  )}
-                </div>
-              )}
-
-              {!loading && filteredProjects.length === 0 && (
-                <div className="text-center text-gray-500 py-16 text-lg">
-                  No data found.
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      </section>
+      <FlickitySlider projects={projects} />
     </>
   );
 }

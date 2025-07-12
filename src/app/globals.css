@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "flickity/css/flickity.css";
 
 :root {
   --background: #ffffff;

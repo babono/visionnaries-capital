@@ -8,6 +8,7 @@ export const notion = new Client({
 // Database IDs
 export const DATABASE_IDS = {
   TRACK_RECORDS: process.env.NOTION_DATABASE_ID_TRACK_RECORDS || '',
+  TRACK_RECORDS_NEW: process.env.NOTION_DATABASE_ID_TRACK_RECORDS_NEW || '',
   SUCCESS_STORIES: process.env.NOTION_DATABASE_ID_SUCCESS_STORIES || '',
   SERVICES: process.env.NOTION_DATABASE_ID_SERVICES || '',
   LIVE_TRANSACTIONS: process.env.NOTION_DATABASE_ID_LIVE_TRANSACTIONS || '',
@@ -25,6 +26,12 @@ export async function getDatabase(databaseId: string) {
   try {
     const response = await notion.databases.query({
       database_id: databaseId,
+      sorts: [
+        {
+          property: 'Year',
+          direction: 'descending'
+        }
+      ]
     });
     return response.results;
   } catch (error) {

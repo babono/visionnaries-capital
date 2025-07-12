@@ -47,8 +47,9 @@ export default function Header() {
               alt="Visionnaires Capital"
               width={200}
               height={40}
-              className="h-8 lg:h-10 w-auto"
-              priority
+              className="h-8 lg:h-10"
+              style={{ width: "auto", height: "auto" }}
+              priority={false}
             />
           </Link>
 
