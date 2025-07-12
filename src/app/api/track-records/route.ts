@@ -3,12 +3,12 @@ import { getDatabase, DATABASE_IDS } from '../../../lib/notion';
 
 export async function GET() {
   try {
-    if (!DATABASE_IDS.TRACK_RECORDS_NEW) {
-      console.log('❌ NOTION_DATABASE_ID_TRACK_RECORDS_NEW not set');
+    if (!DATABASE_IDS.TRACK_RECORDS) {
+      console.log('❌ NOTION_DATABASE_ID_TRACK_RECORDS not set');
       return NextResponse.json({ success: false, error: 'Database ID not configured' });
     }
 
-    const databaseResults = await getDatabase(DATABASE_IDS.TRACK_RECORDS_NEW);
+    const databaseResults = await getDatabase(DATABASE_IDS.TRACK_RECORDS);
 
     return NextResponse.json({ 
       success: true, 
