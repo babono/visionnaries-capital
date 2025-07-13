@@ -1,4 +1,5 @@
 import { Client } from '@notionhq/client';
+import { QueryDatabaseParameters } from '@notionhq/client/build/src/api-endpoints';
 
 // Initialize Notion client
 export const notion = new Client({
@@ -21,17 +22,11 @@ export const PAGE_IDS = {
 };
 
 // Helper function to get database
-export async function getDatabase(databaseId: string) {
+export async function getDatabase(databaseId: string, sorts?: QueryDatabaseParameters["sorts"]) {
   try {
-    const response = await notion.databases.query({
-      database_id: databaseId,
-      sorts: [
-        {
-          property: 'Year',
-          direction: 'descending'
-        }
-      ]
-    });
+    const query: QueryDatabaseParameters = { database_id: databaseId };
+    if (sorts) query.sorts = sorts;
+    const response = await notion.databases.query(query);
     return response.results;
   } catch (error) {
     console.error('Error fetching database:', error);

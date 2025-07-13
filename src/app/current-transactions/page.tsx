@@ -1,11 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import Link from "next/link";
 
 // Types
 interface NotionDatabaseItem {
@@ -38,108 +35,49 @@ interface Project {
   value?: string;
 }
 
-function generateThumbnail(projectName: string, category: string): string {
-  // ...same as track-record...
-  const colors = {
-    "Growth Capital": { start: "#3B82F6", end: "#1E40AF" },
-    "Capital Advisory": { start: "#3B82F6", end: "#1E40AF" },
-    "Financial Strategy & Corporate Advisory": {
-      start: "#10B981",
-      end: "#047857",
-    },
-    "Merger & Acquisition": { start: "#8B5CF6", end: "#5B21B6" },
-    "Valuation Advisory": { start: "#F59E0B", end: "#D97706" },
-  };
-  const categoryColors = colors[category as keyof typeof colors] || {
-    start: "#6B7280",
-    end: "#374151",
-  };
-  return `data:image/svg+xml;base64,${btoa(`
-    <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:${categoryColors.start};stop-opacity:1" />
-          <stop offset="100%" style="stop-color:${categoryColors.end};stop-opacity:1" />
-        </linearGradient>
-      </defs>
-      <rect width="300" height="200" fill="url(#grad)"/>
-      <text x="150" y="100" text-anchor="middle" dominant-baseline="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">
-        ${projectName.length > 20 ? projectName.substring(0, 20) + "..." : projectName}
-      </text>
-      <text x="150" y="130" text-anchor="middle" dominant-baseline="middle" fill="white" font-family="Arial, sans-serif" font-size="12" opacity="0.8">
-        ${category.split(" ")[0]} ${category.split(" ")[1] || ""}
-      </text>
-    </svg>
-  `)}`;
-}
-
 function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
   const projects: Project[] = [];
   databaseResults.forEach((item, index) => {
     const properties = item.properties || {};
+    // Kolom 1: Description (kiri)
     const nameProperty = properties.Name;
-    const projectName = nameProperty?.title?.[0]?.plain_text || `Project ${index + 1}`;
-    const typeProperty = properties.Type || properties.Category;
-    const category = typeProperty?.select?.name || typeProperty?.multi_select?.[0]?.name || "Growth Capital";
+    const projectName =
+      nameProperty?.title?.[0]?.plain_text || `Project ${index + 1}`;
+    // Kolom 2: EBITDA Range (M)
+    const ebitdaProperty = properties.Value;
+    const value = ebitdaProperty?.rich_text?.[0]?.plain_text || "";
+    // Kolom 3: Description (kanan)
     const descriptionProperty = properties.Description;
     const description = descriptionProperty?.rich_text?.[0]?.plain_text || "";
-    const briefProperty = properties.Brief;
-    const brief = briefProperty?.rich_text?.[0]?.plain_text || "";
-    const thumbnailProperty = properties.Thumbnail;
-    const thumbnail = thumbnailProperty?.files?.[0]?.external?.url || thumbnailProperty?.files?.[0]?.file?.url || generateThumbnail(projectName, category);
-    const url = item.url || properties.URL?.url || undefined;
-    const label =
-      properties.Label?.select?.name ||
-      properties.Label?.multi_select?.[0]?.name ||
-      "";
-    const value = properties.Value?.rich_text?.[0]?.plain_text || "";
+    // Kolom 4: Deal Teaser (url)
+    const dealTeaserProperty = properties.Teaser;
+    const url =
+      dealTeaserProperty?.files?.[0]?.external?.url ||
+      dealTeaserProperty?.files?.[0]?.file?.url;
     projects.push({
       id: item.id || String(index + 1),
       name: projectName,
-      category,
+      category: "",
       description,
-      brief,
-      thumbnail,
+      brief: "",
+      thumbnail: undefined,
       url,
-      label,
+      label: undefined,
       value,
     });
   });
   return projects;
 }
 
-function toSlug(name: string) {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-}
-
-const categories = [
-  "All",
-  "Growth Capital",
-  "Capital Advisory",
-  "Financial Strategy & Corporate Advisory",
-  "Merger & Acquisition",
-  "Valuation Advisory",
-];
-const ITEMS_PER_PAGE = 9;
-
-function ProjectSkeleton() {
-  return (
-    <div className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
-      <div className="h-48 bg-gray-200 animate-pulse" />
-      <div className="p-4">
-        <div className="h-6 bg-gray-200 rounded w-2/3 mb-2 animate-pulse" />
-        <div className="h-4 bg-gray-100 rounded w-1/3 mb-2 animate-pulse" />
-        <div className="h-4 bg-gray-100 rounded w-full mb-1 animate-pulse" />
-        <div className="h-4 bg-gray-100 rounded w-2/3 animate-pulse" />
-        <div className="h-8 bg-gray-200 rounded w-1/2 mt-4 animate-pulse" />
-      </div>
-    </div>
-  );
-}
-
 export default function LiveTransactions() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  // Modal state
+  const [showModal, setShowModal] = useState(false);
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [downloading, setDownloading] = useState(false);
+  const [currentProjectId, setCurrentProjectId] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchProjects() {
@@ -155,8 +93,10 @@ export default function LiveTransactions() {
           setProjects([]);
           return;
         }
-        const parsedProjects = parseNotionDatabase(data.projects as NotionDatabaseItem[]);
-        setProjects([...parsedProjects].reverse());
+        const parsedProjects = parseNotionDatabase(
+          data.projects as NotionDatabaseItem[]
+        );
+        setProjects([...parsedProjects]);
       } catch {
         setProjects([]);
       } finally {
@@ -166,250 +106,167 @@ export default function LiveTransactions() {
     fetchProjects();
   }, []);
 
+  // Handler for Download Teaser
+  const handleDownloadClick = (id: string) => {
+    setError("");
+    setPassword("");
+    setShowModal(true);
+    // Store the ID for later use
+    setCurrentProjectId(id);
+  };
+
+  // Handler for password submit
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!currentProjectId) return;
+    setDownloading(true);
+    setError("");
+    try {
+      const res = await fetch(`/api/download-teaser?id=${encodeURIComponent(currentProjectId)}&password=${encodeURIComponent(password)}`);
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "Invalid password or download error.");
+        setDownloading(false);
+        return;
+      }
+      // Download file
+      const blob = await res.blob();
+      const a = document.createElement("a");
+      a.href = window.URL.createObjectURL(blob);
+      
+      // Get filename from Content-Disposition header
+      const contentDisposition = res.headers.get('content-disposition');
+      let filename = 'teaser.pdf';
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
+        if (filenameMatch) {
+          filename = filenameMatch[1];
+        }
+      }
+      
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setShowModal(false);
+    } catch {
+      setError("Download failed.");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      <LiveTransactionsContent projects={projects} loading={loading} />
+      {/* Hero Section */}
+      <section
+        className="text-white pt-20 relative flex items-center justify-center h-[250px] md:h-[500px] py-0"
+        style={{
+          backgroundImage: "url('/page-title-background.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-left">
+            Live Transactions
+          </h1>
+        </div>
+      </section>
+      {/* Loading Spinner */}
+      {loading ? (
+        <div className="min-h-[300px] bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              Loading Live Transactions
+            </h2>
+          </div>
+        </div>
+      ) : (
+        <section className="py-8 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="overflow-x-auto">
+              <table className="min-w-full border-separate border-spacing-y-6">
+                <thead>
+                  <tr className="text-blue-900 text-lg font-semibold">
+                    <th className="text-left px-4 pb-2">Description</th>
+                    <th className="text-left px-4 pb-2">EBITDA Range (M)</th>
+                    <th className="text-left px-4 pb-2">Description</th>
+                    <th className="text-left px-4 pb-2">Deal Teaser</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {projects.map((project) => (
+                    <tr key={project.id} className="align-top">
+                      <td className="px-4 py-2 font-medium text-gray-700 whitespace-nowrap">
+                        {project.name}
+                      </td>
+                      <td className="px-4 py-2 text-gray-700 whitespace-nowrap">
+                        {project.value}
+                      </td>
+                      <td className="px-4 py-2 text-gray-700 max-w-[400px]">
+                        {project.description}
+                      </td>
+                      <td className="px-4 py-2">
+                        <button
+                          onClick={() => handleDownloadClick(project.id)}
+                          className="inline-block px-4 py-2 bg-blue-700 text-white font-semibold rounded shadow hover:bg-blue-800 transition"
+                          disabled={downloading}
+                        >
+                          Download Teaser
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      )}
+      {/* Password Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: 'rgb(0 0 0 / 50%)' }}>
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full relative mx-4">
+            <button
+              className="absolute top-2 right-2 text-gray-400 hover:text-gray-700"
+              onClick={() => setShowModal(false)}
+              disabled={downloading}
+              style={{ fontSize: '32px', lineHeight: '32px' }}
+            >
+              &times;
+            </button>
+            <h2 className="text-xl font-bold mb-4 text-gray-900">Enter Password</h2>
+            <form onSubmit={handlePasswordSubmit}>
+              <input
+                type="password"
+                className="w-full border border-gray-300 rounded px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                disabled={downloading}
+                autoFocus
+              />
+              {error && <div className="text-red-600 mb-2 text-sm">{error}</div>}
+              <button
+                type="submit"
+                className="w-full bg-blue-700 text-white font-semibold rounded px-4 py-2 hover:bg-blue-800 transition"
+                disabled={downloading}
+              >
+                {downloading ? "Checking..." : "Download"}
+              </button>
+            </form>
+            <div className="mt-4 text-sm text-gray-600">
+              Don’t have the password? <a href="mailto:info@vision-cap.com" className="underline text-blue-700">Email us</a>
+            </div>
+          </div>
+        </div>
+      )}
       <Footer />
     </div>
   );
 }
-
-function LiveTransactionsContent({ projects, loading }: { projects: Project[]; loading: boolean }) {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const filteredProjects =
-    selectedCategory === "All"
-      ? projects
-      : projects.filter((project) => project.category === selectedCategory);
-
-  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentProjects = filteredProjects.slice(startIndex, endIndex);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedCategory]);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 300, behavior: "smooth" });
-  };
-
-  const generatePageNumbers = () => {
-    const pages = [];
-    const maxVisiblePages = 5;
-    if (totalPages <= maxVisiblePages) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      if (currentPage <= 3) {
-        for (let i = 1; i <= 4; i++) {
-          pages.push(i);
-        }
-        pages.push("...");
-        pages.push(totalPages);
-      } else if (currentPage >= totalPages - 2) {
-        pages.push(1);
-        pages.push("...");
-        for (let i = totalPages - 3; i <= totalPages; i++) {
-          pages.push(i);
-        }
-      } else {
-        pages.push(1);
-        pages.push("...");
-        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
-          pages.push(i);
-        }
-        pages.push("...");
-        pages.push(totalPages);
-      }
-    }
-    return pages;
-  };
-
-  return (
-    <>
-      {/* Hero Section */}
-      <section className="text-white pt-20" style={{ background: 'linear-gradient(to right, #122a5e, #455781)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Live Transactions</h1>
-          </div>
-        </div>
-      </section>
-
-      {/* Filter Section */}
-      <section className="py-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-center gap-4 mb-4">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-3 rounded-lg font-medium transition-colors ${
-                  selectedCategory === category
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Grid */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {Array.from({ length: 9 }).map((_, index) => (
-                <ProjectSkeleton key={index} />
-              ))}
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {currentProjects.map((project) => (
-                  <Link href={`/portfolio/${toSlug(project.name)}`} key={project.id} className="h-full">
-                    <div className="flex flex-col h-full bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer group">
-                      {/* Thumbnail */}
-                      <div className="relative h-48 overflow-hidden group">
-                        <Image
-                          src={project.thumbnail || generateThumbnail(project.name, project.category)}
-                          alt={project.name}
-                          fill
-                          className="object-cover transition-transform duration-300 group-hover:scale-110"
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          style={{ objectFit: "cover" }}
-                        />
-                        {/* Overlay and Centered Text */}
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                          <div className="w-full h-full bg-black transition-all duration-300 opacity-0 group-hover:opacity-60 absolute inset-0"></div>
-                          <span className="text-white text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center px-4 z-10">
-                            {project.name}
-                          </span>
-                        </div>
-                      </div>
-                      {/* Content */}
-                      <div className="p-4 flex flex-col flex-1">
-                        <h3 className="text-xl font-bold text-gray-900 mb-1">
-                          {project.name}
-                        </h3>
-                        <div className="text-blue-700 italic text-sm mb-2">
-                          {project.category}
-                        </div>
-                        {project.label && project.value && (
-                          <div className="mb-2">
-                            <span className="font-bold">{project.label}:</span>{' '}
-                            <span className="font-semibold">{project.value}</span>
-                          </div>
-                        )}
-                        <p className="text-gray-600 text-sm line-clamp-3 mb-4">
-                          {project.brief || project.description}
-                        </p>
-                        <div className="mt-auto">
-                          {project.url && (
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                window.open(project.url, '_blank', 'noopener,noreferrer');
-                              }}
-                              className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-                            >
-                              Read More
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="mt-12 flex justify-center">
-                  <div className="flex items-center space-x-2">
-                    {/* Previous Button */}
-                    <button
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
-                      className={`flex items-center px-3 py-2 rounded-lg font-medium transition-colors ${
-                        currentPage === 1
-                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                          : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
-                      }`}
-                    >
-                      <ChevronLeft className="h-4 w-4 mr-1" />
-                      Previous
-                    </button>
-
-                    {/* Page Numbers */}
-                    {generatePageNumbers().map((page, index) => (
-                      <button
-                        key={index}
-                        onClick={() =>
-                          typeof page === "number" && handlePageChange(page)
-                        }
-                        disabled={page === "..."}
-                        className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                          page === currentPage
-                            ? "bg-blue-600 text-white"
-                            : page === "..."
-                            ? "bg-white text-gray-400 cursor-default"
-                            : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    ))}
-
-                    {/* Next Button */}
-                    <button
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                      className={`flex items-center px-3 py-2 rounded-lg font-medium transition-colors ${
-                        currentPage === totalPages
-                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                          : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
-                      }`}
-                    >
-                      Next
-                      <ChevronRight className="h-4 w-4 ml-1" />
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Results Info */}
-              {filteredProjects.length > 0 && (
-                <div className="mt-8 text-center text-gray-600">
-                  Showing {startIndex + 1} to {Math.min(endIndex, filteredProjects.length)} of {filteredProjects.length} projects
-                  {selectedCategory !== "All" && (
-                    <span className="ml-2">
-                      in <span className="font-medium">{selectedCategory}</span>
-                    </span>
-                  )}
-                </div>
-              )}
-
-              {/* No Data */}
-              {!loading && filteredProjects.length === 0 && (
-                <div className="text-center text-gray-500 py-16 text-lg">
-                  No data found.
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      </section>
-    </>
-  );
-} 
