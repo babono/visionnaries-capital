@@ -8,7 +8,12 @@ export async function GET() {
       return NextResponse.json({ success: false, error: 'Database ID not configured' });
     }
 
-    const databaseResults = await getDatabase(DATABASE_IDS.TRACK_RECORDS);
+    const databaseResults = await getDatabase(DATABASE_IDS.TRACK_RECORDS, [
+      {
+        property: 'Year',
+        direction: 'descending'
+      }
+    ]);
 
     return NextResponse.json({ 
       success: true, 
