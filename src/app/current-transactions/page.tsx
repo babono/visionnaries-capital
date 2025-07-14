@@ -261,7 +261,7 @@ export default function LiveTransactions() {
               </button>
             </form>
             <div className="mt-4 text-sm text-gray-600">
-              Don’t have the password? <a href="mailto:info@vision-cap.com" className="underline text-blue-700">Email us</a>
+              *Don&apos;t have? Send an <a href="/contact" className="underline text-blue-700">email</a> to us
             </div>
           </div>
         </div>

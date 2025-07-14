@@ -28,6 +28,7 @@ const navigation: NavigationItem[] = [
   { title: 'NETWORK', href: '/network' },
   { title: 'TRACK RECORD', href: '/track-record' },
   { title: 'LIVE TRANSACTIONS', href: '/current-transactions' },
+  { title: 'CONTACT', href: '/contact' },
 ];
 
 export default function Header() {
