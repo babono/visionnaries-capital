@@ -12,6 +12,7 @@ const ibmPlexSans = IBM_Plex_Sans({
 export const metadata: Metadata = {
   title: "Visionnaires Capital",
   description: "Leading financial advisory firm specializing in valuation, capital advisory, merger & acquisition, and financial strategy services across Southeast Asia.",
+  metadataBase: new URL('https://visionnaries-capital.vercel.app/')
 };
 
 export default function RootLayout({
