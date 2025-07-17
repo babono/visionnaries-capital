@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 import { getDatabase, DATABASE_IDS } from '@/lib/notion';
 import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
-const PASSWORD = 'vision2024';
+const PASSWORD = 'majulahsingapura';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
