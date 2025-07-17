@@ -40,10 +40,8 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-start gap-8">
             {contacts.map((contact, idx) => (
-              <div key={idx} className="flex flex-col items-start p-6 min-w-[30%] max-w-xs w-full">
-                <div className="bg-sky-600 rounded-md p-2 w-fit mb-4">
-                  <span className="text-white text-2xl font-semibold px-8 py-2 block">{contact.location}</span>
-                </div>
+              <div key={idx} className="flex flex-col items-start p-6 min-w-[40%] max-w-xs w-full">                
+                <span className="text-sky-600 text-2xl font-semibold py-2 block">{contact.location}</span>                
                 <div className="text-lg space-y-2 w-full">
                   <div className="flex w-full">
                     <span className="font-semibold min-w-[90px]">Email</span>
