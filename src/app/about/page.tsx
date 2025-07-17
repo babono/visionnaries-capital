@@ -135,7 +135,7 @@ export default function About() {
                 </div>
                 <div className="px-8 py-8 text-lg relative">
                   <p className="mb-4">
-                    <span className="font-semibold">He's Your Go-to Guy to Close that Deal</span>
+                    <span className="font-semibold">He is Your Go-to Guy to Close that Deal</span>
                   </p>
                   <p className="mb-4">
                     Joey David Yeo is the founder and CEO of Visionnaires Capital. Since 2008, he has been working in the corporate advisory sector, starting at Spring Singapore, an agency under the Ministry of Trade and Industry in Singapore that helps Singapore enterprises in financing, technology and innovation and access to markets. There, he oversaw over 30 SMEs and supported them in raising capital through venture capitalists, government grants and other channels.
