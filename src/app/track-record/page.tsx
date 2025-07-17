@@ -133,12 +133,10 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
           rightToLeft: false,
         });
 
-        // Force resize and reposition after initialization
+        // Force resize after initialization
         setTimeout(() => {
           if (flickityRef.current) {
             flickityRef.current.resize();
-            // Trigger window resize event to ensure proper sizing
-            window.dispatchEvent(new Event("resize"));
           }
         }, 100);
 
@@ -149,13 +147,15 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
         style.setAttribute("data-flickity-custom", "true");
         style.textContent = `
           .flickity-viewport {
-            transition: height 0.2s;
+            transition: none !important;
             padding-bottom: 1rem;
           }
           .carousel-cell {
             width: calc(25% - 1.125rem) !important;
             margin-right: 1.5rem !important;
             box-sizing: border-box !important;
+            opacity: 1 !important;
+            transition: none !important;
           }
           .carousel-cell .card-content {
             width: 100%;
@@ -287,7 +287,7 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
               key={`project-${project.id}-${index}`}
               className="carousel-cell"
             >
-              <div className="card-content bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 h-full flex flex-col">
+              <div className="card-content bg-white rounded-lg shadow-lg overflow-hidden h-full flex flex-col">
                 {/* Type */}
                 <div className="bg-blue-900 text-white text-center px-4 h-12 flex items-center justify-center">
                   <h3 className="text-sm font-semibold uppercase tracking-wide leading-tight">
@@ -306,6 +306,7 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
                         fill
                         className="object-contain"
                         sizes="250px"
+                        priority={index < 4}
                       />
                     </div>
                   )}
@@ -326,6 +327,7 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
                         fill
                         className="object-contain"
                         sizes="200px"
+                        priority={index < 4}
                       />
                     </div>
                   )}
