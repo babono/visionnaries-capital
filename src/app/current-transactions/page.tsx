@@ -160,20 +160,14 @@ export default function LiveTransactions() {
     <div className="min-h-screen bg-white">
       <Header />
       {/* Hero Section */}
-      <section
-        className="text-white pt-20 relative flex items-center justify-center h-[250px] md:h-[500px] py-0"
-        style={{
-          backgroundImage: "url('/page-title-background.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-left">
-            Live Transactions
-          </h1>
+      {/* Hero Section */}
+      <section className="text-white pt-20" style={{ background: 'linear-gradient(to right, #122a5e, #455781)' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              Live Transactions
+            </h1>
+          </div>
         </div>
       </section>
       {/* Loading Spinner */}
@@ -214,7 +208,7 @@ export default function LiveTransactions() {
                       <td className="px-4 py-2">
                         <button
                           onClick={() => handleDownloadClick(project.id)}
-                          className="inline-block px-4 py-2 bg-blue-700 text-white font-semibold rounded shadow hover:bg-blue-800 transition"
+                          className="inline-block px-4 py-2 bg-sky-600 text-white font-semibold rounded shadow hover:bg-sky-700 transition"
                           disabled={downloading}
                         >
                           Download Teaser
@@ -254,7 +248,7 @@ export default function LiveTransactions() {
               {error && <div className="text-red-600 mb-2 text-sm">{error}</div>}
               <button
                 type="submit"
-                className="w-full bg-blue-700 text-white font-semibold rounded px-4 py-2 hover:bg-blue-800 transition"
+                className="w-full bg-sky-600 text-white font-semibold rounded px-4 py-2 hover:bg-sky-700 transition"
                 disabled={downloading}
               >
                 {downloading ? "Checking..." : "Download"}
