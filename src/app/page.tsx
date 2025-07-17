@@ -119,7 +119,7 @@ export default function Home() {
               We offer comprehensive financial services, including valuation and capital advisory to help companies secure funding. They also specialize in Mergers & Acquisitions and corporate advisory, guiding businesses through growth and exit strategies.
             </p>
             <Link
-              href="/about"
+              href="/services"
               className="border border-sky-600 text-sky-600 px-8 py-3 rounded-md font-semibold hover:bg-blue-50 transition-colors inline-block w-fit"
             >
               Learn More
