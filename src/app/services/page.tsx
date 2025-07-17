@@ -26,7 +26,7 @@ export default function Services() {
             <div className="bg-white rounded-xl shadow flex flex-col">
               <div className="relative h-32 rounded-lg overflow-hidden flex items-center justify-center rounded-b-none">
                 <img src="/images/valuation-header.jpg" alt="Valuation Advisory" className="object-cover w-full h-full" />
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                <div className="absolute inset-0 bg-sky-600 bg-opacity-40 flex items-center justify-center">
                   <h3 className="text-2xl font-bold text-white text-center">Valuation Advisory</h3>
                 </div>
               </div>
@@ -41,7 +41,7 @@ export default function Services() {
             <div className="bg-white rounded-xl shadow flex flex-col">
               <div className="relative h-32 rounded-lg overflow-hidden flex items-center justify-center rounded-b-none">
                 <img src="/images/capital-header.jpg" alt="Capital Advisory" className="object-cover w-full h-full" />
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                <div className="absolute inset-0 bg-sky-600 bg-opacity-40 flex items-center justify-center">
                   <h3 className="text-2xl font-bold text-white text-center">Capital Advisory</h3>
                 </div>
               </div>
@@ -56,7 +56,7 @@ export default function Services() {
             <div className="bg-white rounded-xl shadow flex flex-col">
               <div className="relative h-32 rounded-lg overflow-hidden flex items-center justify-center rounded-b-none">
                 <img src="/images/merger-header.jpg" alt="Merger & Acquisition" className="object-cover w-full h-full" />
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                <div className="absolute inset-0 bg-sky-600 bg-opacity-40 flex items-center justify-center">
                   <h3 className="text-2xl font-bold text-white text-center">Merger & Acquisition</h3>
                 </div>
               </div>
@@ -73,7 +73,7 @@ export default function Services() {
             <div className="bg-white rounded-xl shadow flex flex-col">
               <div className="relative h-32 rounded-lg overflow-hidden flex items-center justify-center rounded-b-none">
                 <img src="/images/financial-header.jpg" alt="Financial Strategy and Corporate Advisory" className="object-cover w-full h-full" />
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                <div className="absolute inset-0 bg-sky-600 bg-opacity-40 flex items-center justify-center">
                   <h3 className="text-2xl font-bold text-white text-center">Financial Strategy and Corporate Advisory</h3>
                 </div>
               </div>
