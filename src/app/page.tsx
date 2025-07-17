@@ -18,6 +18,7 @@ export default function Home() {
         <video
           className="absolute inset-0 w-full h-full object-cover"
           src="/hero-bg.mp4"
+          poster="/hero-poster.png"
           autoPlay
           loop
           muted
