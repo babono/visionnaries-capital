@@ -35,7 +35,7 @@ export default function Home() {
             We create deals, we strategise ways to negotiate deals, we execute deals, and most importantly, we close deals.
           </p>
           <a
-            href="/credentials.pdf"
+            href="/VC-Engagement Proposal 2025_shared.pdf"
             download
             className="bg-sky-600 text-white px-8 py-4 rounded-md font-semibold hover:bg-sky-700 transition-colors mb-6"
           >
