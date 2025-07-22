@@ -5,17 +5,19 @@ import Footer from '../../components/Footer';
 const contacts = [
   {
     location: "Singapore",
-    email: "vc@gmail.com",
-    phone: "0182930219",
+    email: "info@vision-cap.com",
+    phone: "+65 94877077",
     address: `6 Raffles Boulevard
 #03-308 Marina Square
 Singapore 039594`,
   },
   {
     location: "Hong Kong",
-    email: "vc@gmail.com",
-    phone: "0182930219",
-    address: "Hong Kong",
+    email: "info@vision-cap.com",
+    phone: "+65 94877077",
+    address:`6 Raffles Boulevard
+#03-308 Marina Square
+Singapore 039594`,
   },
   // Tambah lokasi baru di sini jika perlu
 ];
