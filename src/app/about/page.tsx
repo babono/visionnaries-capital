@@ -141,9 +141,9 @@ export default function About() {
                     Today, Joey is focused on mergers and acquisitions (M&A), advising business owners, entrepreneurs, and investors on buy-side and sell-side transactions across Southeast Asia. He is best known for his ability to run competitive cross-border processes, manage due diligence, and identify strategic angles that unlock maximum value for his clients.
                   </p>
                   <p className="mb-4">
-                    Joey's passion lies in empowering Asian entrepreneurs by connecting them with the right buyers and partners to grow or exit their businesses. His strong relationships with financial sponsors, corporates, and family offices—paired with sharp financial instincts and proven deal execution skills—make him the go-to person to close complex deals.
+                    Joey&apos;s passion lies in empowering Asian entrepreneurs by connecting them with the right buyers and partners to grow or exit their businesses. His strong relationships with financial sponsors, corporates, and family offices—paired with sharp financial instincts and proven deal execution skills—make him the go-to person to close complex deals.
                   </p>
-                  <p className="mb-4">He believes in trust, integrity, and loyalty over buzzwords and branding. For Joey, what matters most is doing meaningful work that creates long-term value for his clients and partners. A self-proclaimed "type C" personality, Joey is razor-focused on Closing.
+                  <p className="mb-4">He believes in trust, integrity, and loyalty over buzzwords and branding. For Joey, what matters most is doing meaningful work that creates long-term value for his clients and partners. A self-proclaimed &quot;type C&quot; personality, Joey is razor-focused on Closing.
                   </p>                  
                   <div className="text-right">
                     <div className="text-5xl font-bold text-black leading-none mb-4">JOEY</div>
@@ -233,7 +233,7 @@ export default function About() {
                       
                       <div className="pt-4">
                         <p className="text-xl font-semibold ">
-                          For us, it's not just about closing the deal. It's about closing them right.
+                          For us, it&apos;s not just about closing the deal. It&apos;s about closing them right.
                         </p>
                       </div>
                     </div>
