@@ -7,19 +7,18 @@ const contacts = [
     location: "Singapore",
     email: "info@vision-cap.com",
     phone: "+65 94877077",
-    address: `6 Raffles Boulevard
-#03-308 Marina Square
-Singapore 039594`,
+    address: `9 Temasek Blvd
+#07-01 Suntec Tower 2
+Singapore 038989`,
   },
   {
     location: "Hong Kong",
     email: "info@vision-cap.com",
     phone: "+65 94877077",
-    address:`6 Raffles Boulevard
-#03-308 Marina Square
-Singapore 039594`,
-  },
-  // Tambah lokasi baru di sini jika perlu
+    address:`9 Temasek Blvd
+#07-01 Suntec Tower 2
+Singapore 038989`,
+  },  
 ];
 
 export default function ContactPage() {

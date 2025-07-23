@@ -11,8 +11,7 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <h3 className="text-2xl font-bold mb-4">Visionnaires Capital Pte Ltd</h3>
             <p className="text-gray-400 mb-6 max-w-md">
-              Leading financial advisory firm specializing in valuation, capital advisory, 
-              merger & acquisition, and financial strategy services across Southeast Asia.
+              Leading M&A advisory firm specializing in cross-border transactions across APAC.
             </p>
             <div className="flex space-x-4">
               <Link
@@ -33,9 +32,9 @@ export default function Footer() {
             <div className="flex items-top">
               <MapPin className="h-5 w-5 text-sky-600 mr-3 mt-1" />
               <span className="text-gray-400">
-                6 Raffles Boulevard<br />
-                #03-308 Marina Square<br />
-                Singapore 039594
+                9 Temasek Blvd<br />
+                #07-01 Suntec Tower 2<br />
+                Singapore 038989
                 <br />
               </span>
             </div>

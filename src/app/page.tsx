@@ -60,7 +60,7 @@ export default function Home() {
           <div className="flex flex-col justify-center px-6 md:px-24 py-16 lg:py-24 bg-white">
             <h3 className="uppercase text-sm font-semibold text-sky-600 mb-2">Who We Are</h3>
             <p className="text-xl md:text-2xl mb-8">
-              Visionnaires Capital (est. 2011) provides cross-border M&A ($20-100M) and growth capital ($5-50M). It has supported over 100 diverse Southeast Asian companies.
+              Founded in 2011, we are a boutique deal advisory firm specialising in cross-border M&A transactions.
             </p>
             <a
               href="/about"
@@ -73,22 +73,22 @@ export default function Home() {
           <div className="relative flex flex-col justify-center items-center px-6 md:px-24 py-16 lg:py-24 overflow-hidden">            
             <div className="absolute inset-0 bg-[#0077C6] z-10" />
             {/* Stats content */}
-            <div className="relative z-20 grid grid-cols-2 gap-12 w-full max-w-xl text-white">
+            <div className="relative z-20 grid grid-cols-2 gap-12 w-full max-w-xl text-white items-end">
               <div className="text-center">
-                <div className="text-4xl md:text-5xl font-bold mb-1">5+</div>
-                <div className="text-base md:text-lg opacity-80">Current Employees</div>
+                <div className="text-4xl md:text-5xl font-bold mb-1">20+</div>
+                <div className="text-base md:text-lg opacity-80">Clients Served</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl md:text-5xl font-bold mb-1">2011</div>
-                <div className="text-base md:text-lg opacity-80">Year Founded</div>
+                <div className="text-4xl md:text-5xl font-bold mb-1">26+</div>
+                <div className="text-base md:text-lg opacity-80">Transactions</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl md:text-5xl font-bold mb-1">2</div>
-                <div className="text-base md:text-lg opacity-80">Operation Countries</div>
+                <div className="text-4xl md:text-5xl font-bold mb-1">15+</div>
+                <div className="text-base md:text-lg opacity-80">Years Experience</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl md:text-5xl font-bold mb-1">$5T+</div>
-                <div className="text-base md:text-lg opacity-80">Announced Transactions</div>
+                <div className="text-3xl md:text-3xl font-bold mb-1">USD 500M+</div>
+                <div className="text-base md:text-lg opacity-80">Transaction Value</div>
               </div>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function Home() {
           <div className="flex flex-col justify-center px-6 md:px-24 py-16 lg:py-24 bg-white">
             <h3 className="uppercase text-sm font-semibold text-sky-600 mb-2">Our Services</h3>
             <p className="text-xl md:text-2xl mb-8">
-              We offer comprehensive financial services, including valuation and capital advisory to help companies secure funding. They also specialize in Mergers & Acquisitions and corporate advisory, guiding businesses through growth and exit strategies.
+              We provide end-to-end M&A advisory services, covering both buy-side and sell-side mandates across multiple sectors and geographies.
             </p>
             <Link
               href="/services"
@@ -135,7 +135,7 @@ export default function Home() {
           <div className="flex flex-col justify-center px-6 md:px-24 py-16 lg:py-24 bg-white">
             <h3 className="uppercase text-sm font-semibold text-sky-600 mb-2">Track Record</h3>
             <p className="text-xl md:text-2xl mb-8">
-              Visionnaires Capital has supported over 100 companies across diverse industries. We have successfully facilitated M&A deals up to $100M and growth capital up to $50M through their extensive global networks.
+              Over the years, we’ve built a reputation for navigating complex transactions with discretion, agility, and value creation for our clients.
             </p>
             <Link
               href="/track-record"
