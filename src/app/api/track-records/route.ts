@@ -10,8 +10,8 @@ export async function GET() {
 
     const databaseResults = await getDatabase(DATABASE_IDS.TRACK_RECORDS, [
       {
-        property: 'Year',
-        direction: 'descending'
+        property: 'Order',
+        direction: 'ascending'
       }
     ]);
 

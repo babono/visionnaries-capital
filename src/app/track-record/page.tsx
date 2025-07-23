@@ -39,6 +39,8 @@ interface Project {
   text1?: string;
   logo2?: string;
   text2?: string;
+  transactionValue?: string;
+  country?: string;
   year?: string;
 }
 
@@ -76,7 +78,11 @@ function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
       yearProperty?.number?.toString() ||
       yearProperty?.rich_text?.[0]?.plain_text;
 
+    const transactionValueProperty = properties["Transaction Value"];
+    const transactionValue = transactionValueProperty?.rich_text?.[0]?.plain_text;
 
+    const countryProperty = properties.Country;
+    const country = countryProperty?.rich_text?.[0]?.plain_text;
 
     projects.push({
       id: item.id || String(index + 1),
@@ -85,6 +91,8 @@ function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
       text1: text1,
       logo2: logo2,
       text2: text2,
+      transactionValue: transactionValue,
+      country: country,
       year: year,
     });
   });
@@ -133,12 +141,15 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
           rightToLeft: false,
         });
 
-        // Force resize after initialization
+        // Force resize and show carousel after initialization
         setTimeout(() => {
-          if (flickityRef.current) {
+          if (flickityRef.current && carouselRef.current) {
             flickityRef.current.resize();
+            // Show the carousel after Flickity is ready
+            carouselRef.current.style.opacity = '1';
+            carouselRef.current.style.transition = 'opacity 0.5s ease-in-out';
           }
-        }, 100);
+        }, 0);
 
         window.addEventListener("resize", handleResize);
 
@@ -146,6 +157,10 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
         const style = document.createElement("style");
         style.setAttribute("data-flickity-custom", "true");
         style.textContent = `
+          .carousel {
+            white-space: nowrap;
+            overflow: hidden;
+          }
           .flickity-viewport {
             transition: none !important;
             padding-bottom: 1rem;
@@ -156,6 +171,8 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
             box-sizing: border-box !important;
             opacity: 1 !important;
             transition: none !important;
+            white-space: normal !important;
+            vertical-align: top !important;
           }
           .carousel-cell .card-content {
             width: 100%;
@@ -281,11 +298,11 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
         </div>
 
         {/* Flickity Carousel */}
-        <div ref={carouselRef} className="carousel mb-16 px-0 sm:px-6 lg:px-8">
+        <div ref={carouselRef} className="carousel mb-16 px-0 sm:px-6 lg:px-8 opacity-0">
           {projects.map((project, index) => (
             <div
               key={`project-${project.id}-${index}`}
-              className="carousel-cell"
+              className="carousel-cell w-1/4 lg:w-1/4 md:w-1/3 sm:w-1/2 inline-block align-top mr-6"
             >
               <div className="card-content bg-white rounded-lg shadow-lg overflow-hidden h-full flex flex-col">
                 {/* Type */}
@@ -339,6 +356,21 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
                     </div>
                   )}
                 </div>
+
+                {(project.transactionValue || project.country) && (
+                  <div className="px-4 pt-4 text-center space-y-2">
+                    {project.transactionValue && (
+                      <div className="text-sm text-gray-600">
+                        <span className="font-medium">Transaction Value:</span> {project.transactionValue}
+                      </div>
+                    )}
+                    {project.country && (
+                      <div className="text-sm text-gray-600">
+                        <span className="font-medium">Country:</span> {project.country}
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Year Footer - always at bottom */}
                 <div className="p-4 text-center">
