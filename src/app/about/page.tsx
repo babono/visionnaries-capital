@@ -157,10 +157,88 @@ export default function About() {
               </div>
             )}
             {activeTab === 'specialty' && (
-              <div className="text-center text-lg text-gray-800 bg-white rounded-lg p-8 shadow mb-8">
-                {/* Replace with actual specialty content */}
-                <strong>Our Specialty:</strong> <br />
-                We specialize in cross-border mergers & acquisitions, capital advisory, and financial strategy, leveraging deep industry expertise and a global network to help clients achieve their growth objectives.
+              <div className="bg-white rounded-lg shadow mb-8 overflow-hidden">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+                  {/* Left side - World Map and Statistics */}
+                  <div className="relative bg-blue-100 p-8 flex flex-col justify-center items-center min-h-[500px]">
+                    {/* World Map SVG */}
+                    <div className="w-full mb-8">
+                      <img 
+                        src="/world.svg" 
+                        alt="World Map" 
+                        className="w-full h-auto"
+                      />
+                    </div>
+                    
+                    {/* Statistics Box */}
+                    <div className="bg-slate-700 text-white p-6 rounded-lg text-center w-full max-w-sm">
+                      <h3 className="text-lg font-semibold mb-2">
+                        Over 26 transactions closed, ~US$800M in total value,
+                        across APAC, US, Europe markets
+                      </h3>
+                    </div>
+                    
+                    {/* Country Flags */}
+                    <div className="flex flex-wrap justify-center gap-3 mt-6">
+                      <div className="flex items-center justify-center">
+                        <span className="text-2xl md:text-5xl">🇪🇺</span>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <span className="text-2xl md:text-5xl">🇯🇵</span>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <span className="text-2xl md:text-5xl">🇺🇸</span>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <span className="text-2xl md:text-5xl">🇸🇬</span>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <span className="text-2xl md:text-5xl">🇭🇰</span>
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <span className="text-2xl md:text-5xl">🇮🇳</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Right side - Specialty Content */}
+                  <div className="p-8 flex flex-col justify-center">
+                    <div className="space-y-6">
+                      <div>
+                        <h2 className="text-2xl font-bold mb-4">Our Specialty:</h2>
+                        <p className="text-lg leading-relaxed">
+                          Our strength lies in cross-border M&A, where we leverage a deep global 
+                          buyer network to drive competitive processes that maximize valuation and 
+                          execution certainty. We proactively engage a broad universe of strategic and 
+                          financial investors to give our clients the best possible outcome in terms of 
+                          price, deal structure, and fit.
+                        </p>
+                      </div>
+                      
+                      <div>
+                        <p className="text-lg leading-relaxed">
+                          With experience advising companies across diverse sectors and scales, we 
+                          are able to bring a tailored, strategic perspective to every mandate. We 
+                          positioning each business in a way that resonates with the most relevant 
+                          acquirers.
+                        </p>
+                      </div>
+                      
+                      <div>
+                        <p className="text-lg leading-relaxed">
+                          Most importantly, we only take on mandates where we are confident we can 
+                          add real value and deliver results.
+                        </p>
+                      </div>
+                      
+                      <div className="pt-4">
+                        <p className="text-xl font-semibold ">
+                          For us, it's not just about closing the deal. It's about closing them right.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </div>
