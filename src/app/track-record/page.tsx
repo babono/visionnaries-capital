@@ -177,7 +177,7 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
           .carousel-cell .card-content {
             width: 100%;
             height: 100%;
-            min-height: 500px;
+            min-height: 420px;
             margin-bottom: 1rem;
           }
           @media (max-width: 1024px) {

@@ -10,8 +10,8 @@ export default function Footer() {
           {/* Company Info */}
           <div className="lg:col-span-2">
             <h3 className="text-2xl font-bold mb-4">Visionnaires Capital Pte Ltd</h3>
-            <p className="text-gray-400 mb-6 max-w-md">
-              Leading M&A advisory firm specializing in cross-border transactions across APAC.
+            <p className="text-gray-400 mb-6 max-w-md text-xs">
+              Visionnaires Capital is a leading M&A advisory firm specializing in cross-border transactions across Asia Pacific. We focus on both sell-side and buy-side mandates, with deep expertise in unlocking premium outcomes through access to strategic and listed buyers globally—particularly in Japan, the U.S., and Europe. Our strength lies not only in execution, but in origination: we proactively source proprietary, off-market opportunities and deliver direct access to international buyers, unlike many regional firms limited to local networks. For sell-side clients, we manage the full transaction process end-to-end—from valuation and strategic positioning, to due diligence oversight, SPA/SHA negotiation, and legal counsel coordination. On the buy-side, we help clients identify and acquire the right businesses with precision—maintaining buyer anonymity, ensuring valuation discipline, and providing cultural and commercial context crucial for overseas buyers entering Asia. With a strong track record, high close rates, and a commitment to only taking on mandates where we know we can deliver real value, Visionnaires Capital is the trusted partner for cross-border growth.
             </p>
             <div className="flex space-x-4">
               <Link
