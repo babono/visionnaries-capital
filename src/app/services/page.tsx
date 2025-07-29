@@ -73,7 +73,7 @@ export default function Services() {
                     At Visionnaires Capital, we specialise in helping corporate and financial investors execute strategic acquisitions across Southeast Asia and the broader Asia Pacific region.
                   </p>
                   <p>
-                    What sets us apart is our origination capability—we don't just wait for deals to come to market. We proactively source and unlock proprietary, off-market opportunities that are aligned with your strategic objectives and offer superior value. This direct access allows our clients to avoid crowded processes and inflated pricing driven by competitive tension.
+                    What sets us apart is our origination capability—we don&apos;t just wait for deals to come to market. We proactively source and unlock proprietary, off-market opportunities that are aligned with your strategic objectives and offer superior value. This direct access allows our clients to avoid crowded processes and inflated pricing driven by competitive tension.
                   </p>
                   <div>
                     <p className="font-semibold mb-2">Our typical buy-side scope includes:</p>
