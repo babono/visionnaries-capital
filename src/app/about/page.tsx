@@ -54,45 +54,45 @@ export default function About() {
                     <h2 className="text-3xl font-bold text-gray-900 mb-6">
                       About Visionnaires Capital
                     </h2>
-                    <p className="text-lg text-gray-600 mb-6">
-                      Established in 2011, we are a boutique deal advisory firm specialising in cross-border M&A for buy-side and sell-side clients.
-                    </p>
-                    <p className="text-lg text-gray-600 mb-6">
-                      Our expertise spans across industries, from Technology, Food & Beverage to Healthcare We facilitate transactions valued from US$10M to US$200M
-                    </p>
-                    <p className="text-lg text-gray-600">
-                      We pride ourselves in our long-term relationships with strategic and financial buyers across the globe, enabling us to drive successful outcomes for our clients.
+                    <p className="text-sm md:text-base text-gray-600 mb-6">
+                      Founded in 2011, Visionnaires Capital is a boutique M&A advisory firm focused on cross-border mid-market transactions across Asia Pacific. We advise both buy-side and sell-side clients on deals ranging from US$30M to US$300M, across sectors such as Business Services, Manufacturing, Technology, Food & Beverage, and Healthcare.
+                      <br /><br />
+                      Our transactional footprint spans key markets including Singapore, Indonesia, Vietnam, Thailand, Malaysia, India, Hong Kong, and Japan.
+                      <br /><br />
+                      Unlike many regional advisors who focus solely on Southeast Asian buyers, Visionnaires Capital has cultivated deep relationships with strategic and financial acquirers globally—with a particular strength in accessing listed companies in North Asia, especially Japan. This allows us to bring in premium international buyers that are often out of reach for local competitors, unlocking higher valuations and better strategic alignment for our clients.
+                      <br /><br />
+                      We pride ourselves on long-term relationships and hands-on execution, consistently delivering cross-border outcomes where others cannot.
                     </p>
                   </div>
                   <div className="p-8">
                     <div className="grid grid-cols-2 gap-6">
                       <div className="text-center">
                         <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                          <Users className="h-8 w-8 text-sky-600" />
-                        </div>
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2">20+</h3>
-                        <p className="text-gray-600">Clients Served</p>
-                      </div>
-                      <div className="text-center">
-                        <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                          <Handshake className="h-8 w-8 text-sky-600" />
-                        </div>
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2">26+</h3>
-                        <p className="text-gray-600">Transactions</p>
-                      </div>
-                      <div className="text-center">
-                        <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                          <Award className="h-8 w-8 text-sky-600" />                          
+                          <Award className="h-8 w-8 text-sky-600" />
                         </div>
                         <h3 className="text-2xl font-bold text-gray-900 mb-2">15+</h3>
-                        <p className="text-gray-600">Years Experience</p>
+                        <p className="text-gray-600 text-sm">Years of Cross-Border M&A Experience</p>
                       </div>
                       <div className="text-center">
                         <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                           <DollarSign className="h-8 w-8 text-sky-600" />
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2">USD 800M+</h3>
-                        <p className="text-gray-600">Transaction Value</p>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-2">US$800M+</h3>
+                        <p className="text-gray-600 text-sm">in Cumulative Deal Value Closed</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                          <Handshake className="h-8 w-8 text-sky-600" />                          
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-2">90%</h3>
+                        <p className="text-gray-600 text-sm">of Transactions Sold to Strategic Buyers Including Listed Corporates in Japan, U.S., and Europe</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                          <Users className="h-8 w-8 text-sky-600" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-2">100%</h3>
+                        <p className="text-gray-600 text-sm">Superior Outcomes for Clients Achieved 100% Full Exits and Valuations 30–40% Above Prior Benchmarks</p>
                       </div>
                     </div>
                   </div>
@@ -132,19 +132,25 @@ export default function About() {
                 </div>
                 <div className="px-8 py-8 text-lg relative">
                   <p className="mb-4">
-                    <span className="font-semibold">He is Your Go-to Guy to Close that Deal</span>
+                    <span className="font-semibold">Founder’s Foreword</span>
                   </p>
-                  <p className="mb-4">
-                    Joey David Yeo is the founder and CEO of Visionnaires Capital, with over 15 years of experience advising entrepreneurs and shareholders on M&A and capital raising. Joey is best known for one thing: getting deals done.
-                  </p>
-                  <p className="mb-4">
-                    Today, Joey is focused on mergers and acquisitions (M&A), advising business owners, entrepreneurs, and investors on buy-side and sell-side transactions across Southeast Asia. He is best known for his ability to run competitive cross-border processes, manage due diligence, and identify strategic angles that unlock maximum value for his clients.
-                  </p>
-                  <p className="mb-4">
-                    Joey&apos;s passion lies in empowering Asian entrepreneurs by connecting them with the right buyers and partners to grow or exit their businesses. His strong relationships with financial sponsors, corporates, and family offices—paired with sharp financial instincts and proven deal execution skills—make him the go-to person to close complex deals.
-                  </p>
-                  <p className="mb-4">He believes in trust, integrity, and loyalty over buzzwords and branding. For Joey, what matters most is doing meaningful work that creates long-term value for his clients and partners. A self-proclaimed &quot;type C&quot; personality, Joey is razor-focused on Closing.
-                  </p>                  
+                    <p className="mb-4">
+                    When I started Visionnaires Capital in 2015, we had no capital, no legacy portfolio, and no shortcuts—only belief. Belief in building something meaningful, guided by values that matter. From those humble beginnings, we&apos;ve grown into one of Asia&apos;s leading boutique cross-border M&amp;A firms, known for execution, trust, and a relentless commitment to our clients.
+                    <br /><br />
+                    As someone who came from nothing and built a business from scratch, I know what it means to be an entrepreneur. I understand the fears, sacrifices, and aspirations behind every company—because I&apos;ve lived it. That&apos;s why we advise not just with expertise, but with empathy.
+                    <br /><br />
+                    Our values <strong>integrity, resourcefulness, and relentless grit</strong> are at the heart of everything we do. We take a consultative, strategic approach to every transaction, going far beyond numbers. We dive deep into each business model to uncover the real drivers of value and position our clients in a way that resonates with serious acquirers.
+                    <br /><br />
+                    We are highly selective about the mandates we take on—our decision is based on how much value we can truly deliver. This includes our ability to enhance valuation through strategic positioning, unlock access to the right buyers, and guide the deal through to a successful close. If we believe the timing is off or the business isn&apos;t ready to achieve the best possible outcome, we&apos;re honest about it. We would rather have a candid conversation early than pursue a transaction that doesn&apos;t serve the client&apos;s long-term interests.
+                    <br /><br />
+                    And when we do take on a mandate, we don&apos;t just push paper—we drive the deal. From tailored origination to hands-on due diligence, from localised materials to SPA/SHA negotiation, we manage the process end-to-end. We also manage legal advisors and ensure alignment across all parties, maintaining focus and momentum.
+                    <br /><br />
+                    Some transactions close quickly. Others take longer than expected—especially in volatile markets. But we don&apos;t quit. Our never-give-up mindset has seen deals through in the middle of downturns and helped our clients exit at strong valuations despite the odds.
+                    <br /><br />
+                    Ultimately, Visionnaires Capital is more than an advisory firm. We are a relationship-driven business. We don&apos;t just close deals—we build long-term partnerships. We don&apos;t walk away—we stay committed until the right outcome is achieved.
+                    <br /><br />
+                    Thank you for placing your trust in us. We look forward to being not just your advisors—but your allies.
+                    </p>
                   <div className="text-right">
                     <div className="text-5xl font-bold text-black leading-none mb-4">JOEY</div>
                     <div className="text-lg font-medium leading-tight">
@@ -172,31 +178,54 @@ export default function About() {
                     
                     {/* Statistics Box */}
                     <div className="bg-slate-700 text-white p-6 rounded-lg text-center w-full max-w-sm">
-                      <h3 className="text-lg font-semibold mb-2">
-                        Over 26 transactions closed, ~US$800M in total value,
-                        across APAC, US, Europe markets
+                      <h3 className="text-xs md:text-sm mb-2">
+                        <strong>Dozens of successful transactions closed</strong>, with a total deal value of nearly <strong>US$1 billion</strong>—spanning Asia-based deals sold to major buyers from the <strong>U.S., Europe, Japan, and across the Asia Pacific</strong> region.
                       </h3>
                     </div>
                     
                     {/* Country Flags */}
                     <div className="flex flex-wrap justify-center gap-3 mt-6">
                       <div className="flex items-center justify-center">
-                        <span className="text-2xl md:text-5xl">🇪🇺</span>
+                        <img 
+                          src="/flag-europe.png" 
+                          alt="Europe Flag" 
+                          className="w-8 h-6 md:w-12 md:h-9 object-cover rounded"
+                        />
                       </div>
                       <div className="flex items-center justify-center">
-                        <span className="text-2xl md:text-5xl">🇯🇵</span>
+                        <img 
+                          src="/flag-japan.png" 
+                          alt="Japan Flag" 
+                          className="w-8 h-6 md:w-12 md:h-9 object-cover rounded"
+                        />
                       </div>
                       <div className="flex items-center justify-center">
-                        <span className="text-2xl md:text-5xl">🇺🇸</span>
+                        <img 
+                          src="/flag-us.png" 
+                          alt="US Flag" 
+                          className="w-8 h-6 md:w-12 md:h-9 object-cover rounded"
+                        />
                       </div>
                       <div className="flex items-center justify-center">
-                        <span className="text-2xl md:text-5xl">🇸🇬</span>
+                        <img 
+                          src="/flag-asean.png" 
+                          alt="ASEAN Flag" 
+                          className="w-8 h-6 md:w-12 md:h-9 object-cover rounded"
+                        />
                       </div>
                       <div className="flex items-center justify-center">
-                        <span className="text-2xl md:text-5xl">🇭🇰</span>
+                        <img 
+                          src="/flag-hongkong.png" 
+                          alt="Hong Kong Flag" 
+                          className="w-8 h-6 md:w-12 md:h-9 object-cover rounded"
+                        />
                       </div>
                       <div className="flex items-center justify-center">
-                        <span className="text-2xl md:text-5xl">🇮🇳</span>
+                        <img 
+                          src="/flag-india.png" 
+                          alt="India Flag" 
+                          className="w-8 h-6 md:w-12 md:h-9 object-cover rounded"
+                        />
                       </div>
                     </div>
                   </div>
@@ -206,36 +235,20 @@ export default function About() {
                     <div className="space-y-6">
                       <div>
                         <h2 className="text-2xl font-bold mb-4">Our Specialty:</h2>
-                        <p className="text-lg leading-relaxed">
-                          Our strength lies in cross-border M&A, where we leverage a deep global 
-                          buyer network to drive competitive processes that maximize valuation and 
-                          execution certainty. We proactively engage a broad universe of strategic and 
-                          financial investors to give our clients the best possible outcome in terms of 
-                          price, deal structure, and fit.
+                        <p className="text-xs md:text-sm leading-relaxed">                          
+                          Our core strength lies in cross-border M&A, where we leverage a deeply entrenched global buyer network—spanning Japan, the U.S., Europe, and beyond—to run competitive processes that maximise valuation, structure, and execution certainty.
+                          <br /><br />
+                          Unlike many regional advisors who focus on collecting mandates and retainers, we are highly selective. We don&apos;t take on transactions just to list them—we take them on to close them. Our success-based model and hands-on approach mean our interests are fully aligned with those of our clients. This is a key reason behind our high close rate and track record of delivering premium outcomes.
+                          <br /><br />
+                          We maintain direct relationships with international strategic and financial buyers, including listed acquirers. These global connections enable us to unlock valuation arbitrage and strategic synergies often missed by firms limited to regional networks.
+                          <br /><br />  
+                          Beyond origination, we actively manage the full M&A process. We localise materials for overseas acquirers (including Japanese buyers), review and curate all sell-side documents, and tightly manage the due diligence process to ensure data accuracy, clarity, and strategic positioning.
+                          <br /><br />
+                          With experience across sectors and deal sizes, we bring tailored insight and execution precision to every mandate.
+                          <br /><br />
+                          For us, it&apos;s not about volume. It&apos;s about value. We close the right deals—with the right buyers—on the right terms.
                         </p>
-                      </div>
-                      
-                      <div>
-                        <p className="text-lg leading-relaxed">
-                          With experience advising companies across diverse sectors and scales, we 
-                          are able to bring a tailored, strategic perspective to every mandate. We 
-                          positioning each business in a way that resonates with the most relevant 
-                          acquirers.
-                        </p>
-                      </div>
-                      
-                      <div>
-                        <p className="text-lg leading-relaxed">
-                          Most importantly, we only take on mandates where we are confident we can 
-                          add real value and deliver results.
-                        </p>
-                      </div>
-                      
-                      <div className="pt-4">
-                        <p className="text-xl font-semibold ">
-                          For us, it&apos;s not just about closing the deal. It&apos;s about closing them right.
-                        </p>
-                      </div>
+                      </div>                                            
                     </div>
                   </div>
                 </div>

@@ -32,10 +32,30 @@ export default function Services() {
               </div>
               <div className="p-4">
                 <h4 className="text-lg font-semibold text-gray-700 mb-2 text-center">Unlocking Maximum Value</h4>
-                <p className="text-gray-600 text-center">
-                  In sell-side mandates, we work closely with shareholders and management teams to prepare the business for a competitive and value-maximizing transaction. <br />
-                  A typical process includes internal valuation, strategic positioning, preparing a data room, buyer screening, transaction marketing, running a due diligence process, and negotiating with investors. We put a strong emphasis on confidentiality and execution certainty.
-                </p>
+                <div className="text-gray-600 text-left space-y-4">
+                  <p>
+                    In our sell-side mandates, we work closely with shareholders and management teams to position the business for a competitive, value-maximising outcome.
+                  </p>
+                  <p>
+                    We go beyond traditional advisory. We actively manage the full transaction process to ensure valuation is maximised, risks are mitigated, and closing certainty is high.
+                  </p>
+                  <div>
+                    <p className="font-semibold mb-2">Our typical scope includes:</p>
+                    <ul className="list-disc list-inside space-y-1 ml-4">
+                      <li>Internal valuation and benchmarking</li>
+                      <li>Strategic positioning tailored to global acquirers</li>
+                      <li>Preparation of marketing materials and virtual data room</li>
+                      <li>Targeted outreach and screening through our global buyer network</li>
+                      <li>Discreet transaction marketing and NDA coordination</li>
+                      <li>Full due diligence management—including document review, data gap checks, and buyer Q&A handling</li>
+                      <li>Active negotiation support on SPA/SHA terms, including commercial structuring and legal clause advisory</li>
+                      <li>Coordination and oversight of legal counsel to ensure alignment with deal strategy and protect seller interests</li>
+                    </ul>
+                  </div>
+                  <p>
+                    We act as the central deal driver—balancing strategy, execution, and legal negotiations—so our clients can stay focused on running the business while we drive the deal to close.
+                  </p>
+                </div>
               </div>
             </div>
             {/* Capital Advisory */}
@@ -48,10 +68,29 @@ export default function Services() {
               </div>
               <div className="p-4">
                 <h4 className="text-lg font-semibold text-gray-700 mb-2 text-center">Empowering your growth</h4>
-                <p className="text-gray-600 text-center">
-                  On buy-side engagements, we assist corporate and financial buyers in identifying, evaluating, and executing acquisition opportunities aligned with their growth strategies.
-                  A typical process includes deal sourcing, valuation analysis, due diligence, acquisition financing, negotiation, and transaction structuring support. We highly value alignment with our clients and long-term value creation.
-                </p>
+                <div className="text-gray-600 text-left space-y-4">
+                  <p>
+                    At Visionnaires Capital, we specialise in helping corporate and financial investors execute strategic acquisitions across Southeast Asia and the broader Asia Pacific region.
+                  </p>
+                  <p>
+                    What sets us apart is our origination capability—we don't just wait for deals to come to market. We proactively source and unlock proprietary, off-market opportunities that are aligned with your strategic objectives and offer superior value. This direct access allows our clients to avoid crowded processes and inflated pricing driven by competitive tension.
+                  </p>
+                  <div>
+                    <p className="font-semibold mb-2">Our typical buy-side scope includes:</p>
+                    <ul className="list-disc list-inside space-y-1 ml-4">
+                      <li>Off-market origination and discreet target outreach</li>
+                      <li>Strategic fit assessment and valuation benchmarking—ensuring discipline in pricing, especially where buyer profile may otherwise trigger inflated seller expectations</li>
+                      <li>Cultural and contextual advisory—bridging negotiation styles, business norms, and sensitivities for overseas buyers entering Asia</li>
+                      <li>Full-spectrum commercial due diligence and Q&A management</li>
+                      <li>Transaction structuring and negotiation support</li>
+                      <li>Acquisition financing advisory</li>
+                      <li>SPA/SHA support, including coordination with legal counsel</li>
+                    </ul>
+                  </div>
+                  <p>
+                    We bring a tailored, high-touch approach to every mandate—ensuring you not only find the right target, but secure it on the right terms.
+                  </p>
+                </div>
               </div>
             </div>            
           </div>
