@@ -12,6 +12,7 @@ export const DATABASE_IDS = {
   SUCCESS_STORIES: process.env.NOTION_DATABASE_ID_SUCCESS_STORIES || '',
   SERVICES: process.env.NOTION_DATABASE_ID_SERVICES || '',
   LIVE_TRANSACTIONS: process.env.NOTION_DATABASE_ID_LIVE_TRANSACTIONS || '',
+  EMAIL_TEASER_DOWNLOADER: process.env.NOTION_DATABASE_ID_EMAIL_TEASER_DOWNLOADER || '',
 };
 
 // Page IDs
@@ -57,5 +58,20 @@ export async function getPageContent(pageId: string) {
   } catch (error) {
     console.error('Error fetching page content:', error);
     return [];
+  }
+}
+
+// Helper function to create page in database
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function createPageInDatabase(databaseId: string, properties: any) {
+  try {
+    const response = await notion.pages.create({
+      parent: { database_id: databaseId },
+      properties,
+    });
+    return response;
+  } catch (error) {
+    console.error('Error creating page in database:', error);
+    throw error;
   }
 } 
