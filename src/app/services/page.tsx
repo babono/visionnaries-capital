@@ -8,8 +8,16 @@ export default function Services() {
       <Header />
       
       {/* Hero Section */}
-      <section className="text-white pt-20" style={{ background: 'linear-gradient(to right, #122a5e, #455781)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="relative text-white pt-20">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/header-services.jpg"
+            alt="Services"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-blue-700/70"></div>
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Services
@@ -23,10 +31,10 @@ export default function Services() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {/* Valuation Advisory */}
-            <div className="bg-white rounded-xl shadow flex flex-col">
-              <div className="relative h-32 rounded-lg overflow-hidden flex items-center justify-center rounded-b-none">
-                <img src="/images/valuation-header.jpg" alt="Valuation Advisory" className="object-cover w-full h-full" />
-                <div className="absolute inset-0 bg-sky-600 bg-opacity-40 flex items-center justify-center">
+            <div className="bg-white rounded-xl shadow flex flex-col overflow-hidden">
+              <div className="relative h-48">
+                <img src="/valuation-header.jpg" alt="Valuation Advisory" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-blue-700/70 flex items-center justify-center">
                   <h3 className="text-2xl font-bold text-white text-center">Sell-side & M&A Advisory</h3>
                 </div>
               </div>
@@ -59,10 +67,10 @@ export default function Services() {
               </div>
             </div>
             {/* Capital Advisory */}
-            <div className="bg-white rounded-xl shadow flex flex-col">
-              <div className="relative h-32 rounded-lg overflow-hidden flex items-center justify-center rounded-b-none">
-                <img src="/images/capital-header.jpg" alt="Capital Advisory" className="object-cover w-full h-full" />
-                <div className="absolute inset-0 bg-sky-600 bg-opacity-40 flex items-center justify-center">
+            <div className="bg-white rounded-xl shadow flex flex-col overflow-hidden">
+              <div className="relative h-48">
+                <img src="/capital-header.jpg" alt="Capital Advisory" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-blue-700/70 flex items-center justify-center">
                   <h3 className="text-2xl font-bold text-white text-center">Buyside M&A Advisory</h3>
                 </div>
               </div>
