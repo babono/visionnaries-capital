@@ -160,9 +160,16 @@ export default function LiveTransactions() {
     <div className="min-h-screen bg-white">
       <Header />
       {/* Hero Section */}
-      {/* Hero Section */}
-      <section className="text-white pt-20" style={{ background: 'linear-gradient(to right, #122a5e, #455781)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="relative text-white pt-20">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/header-live.jpg"
+            alt="Live Transactions"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-blue-700/70"></div>
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Live Transactions

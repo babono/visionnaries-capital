@@ -18,8 +18,16 @@ export default function About() {
       <Header />
 
       {/* Hero Section */}
-      <section className="text-white pt-20" style={{ background: 'linear-gradient(to right, #122a5e, #455781)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="relative text-white pt-20">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/header-about.jpg"
+            alt="About Us"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-blue-700/70"></div>
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               About Us
@@ -177,7 +185,7 @@ export default function About() {
                     </div>
                     
                     {/* Statistics Box */}
-                    <div className="bg-slate-700 text-white p-6 rounded-lg text-center w-full max-w-sm">
+                    <div className="bg-slate-700 text-white p-2 rounded-lg text-center w-full max-w-sm">
                       <h3 className="text-xs md:text-sm mb-2">
                         <strong>Dozens of successful transactions closed</strong>, with a total deal value of nearly <strong>US$1 billion</strong>—spanning Asia-based deals sold to major buyers from the <strong>U.S., Europe, Japan, and across the Asia Pacific</strong> region.
                       </h3>
