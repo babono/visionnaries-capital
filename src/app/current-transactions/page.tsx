@@ -74,7 +74,7 @@ export default function LiveTransactions() {
   const [loading, setLoading] = useState(true);
   // Modal state
   const [showModal, setShowModal] = useState(false);
-  const [modalMode, setModalMode] = useState<'password' | 'email'>('password');
+  const [modalMode, setModalMode] = useState<'password' | 'email'>('email');
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -114,7 +114,7 @@ export default function LiveTransactions() {
     setError("");
     setPassword("");
     setEmail("");
-    setModalMode('password');
+    setModalMode('email');
     setShowModal(true);
     // Store the ID for later use
     setCurrentProjectId(id);
@@ -139,7 +139,7 @@ export default function LiveTransactions() {
     setError("");
     setPassword("");
     setEmail("");
-    setModalMode('password');
+    setModalMode('email');
     setCurrentProjectId(null);
   };
 
