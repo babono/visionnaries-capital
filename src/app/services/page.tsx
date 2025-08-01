@@ -15,11 +15,11 @@ export default function Services() {
             alt="Services"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-blue-700/70"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-sky-700/50 to-sky-500/30"></div>
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <h1 className="text-4xl md:text-5xl font-light mb-6 text-shadow-lg">
               Services
             </h1>            
           </div>
@@ -34,8 +34,8 @@ export default function Services() {
             <div className="bg-white rounded-xl shadow flex flex-col overflow-hidden">
               <div className="relative h-48">
                 <img src="/valuation-header.jpg" alt="Valuation Advisory" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-blue-700/70 flex items-center justify-center">
-                  <h3 className="text-2xl font-bold text-white text-center">Sell-side & M&A Advisory</h3>
+                <div className="absolute inset-0 bg-gradient-to-r from-sky-700/50 to-sky-500/30 flex items-center justify-center">
+                  <h3 className="text-2xl font-bold text-white text-center text-shadow-lg">Sell-side & M&A Advisory</h3>
                 </div>
               </div>
               <div className="p-4">
@@ -70,8 +70,8 @@ export default function Services() {
             <div className="bg-white rounded-xl shadow flex flex-col overflow-hidden">
               <div className="relative h-48">
                 <img src="/capital-header.jpg" alt="Capital Advisory" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-blue-700/70 flex items-center justify-center">
-                  <h3 className="text-2xl font-bold text-white text-center">Buyside M&A Advisory</h3>
+                <div className="absolute inset-0 bg-gradient-to-r from-sky-700/50 to-sky-500/30 flex items-center justify-center">
+                  <h3 className="text-2xl font-bold text-white text-center text-shadow-lg">Buyside M&A Advisory</h3>
                 </div>
               </div>
               <div className="p-4">
