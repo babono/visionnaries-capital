@@ -35,7 +35,7 @@ export default function Services() {
               <div className="relative h-48">
                 <img src="/valuation-header.jpg" alt="Valuation Advisory" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-sky-700/50 to-sky-500/30 flex items-center justify-center">
-                  <h3 className="text-2xl font-bold text-white text-center text-shadow-lg">Sell-side & M&A Advisory</h3>
+                  <h3 className="text-2xl font-medium text-white text-center text-shadow-lg">Sell-side & M&A Advisory</h3>
                 </div>
               </div>
               <div className="p-4">
@@ -71,7 +71,7 @@ export default function Services() {
               <div className="relative h-48">
                 <img src="/capital-header.jpg" alt="Capital Advisory" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-sky-700/50 to-sky-500/30 flex items-center justify-center">
-                  <h3 className="text-2xl font-bold text-white text-center text-shadow-lg">Buyside M&A Advisory</h3>
+                  <h3 className="text-2xl font-medium text-white text-center text-shadow-lg">Buyside M&A Advisory</h3>
                 </div>
               </div>
               <div className="p-4">
