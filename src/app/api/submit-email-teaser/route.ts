@@ -32,7 +32,21 @@ export async function POST(req: NextRequest) {
       return new Response(JSON.stringify({ error: 'Invalid email format.' }), { status: 400 });
     }
 
-    // Save email to Notion database
+    // Get the project info first to get the project name
+    const results = await getDatabase(DATABASE_IDS.LIVE_TRANSACTIONS);
+    const item = (results as PageObjectResponse[]).find((item) => item.id === projectId);
+    if (!item) {
+      return new Response(JSON.stringify({ error: 'Project not found.' }), { status: 404 });
+    }
+
+    // Get project name from the Live Transactions item
+    const nameProperty = item.properties?.Name;
+    let projectName = 'Unknown Project';
+    if (nameProperty && nameProperty.type === 'title' && Array.isArray(nameProperty.title)) {
+      projectName = nameProperty.title[0]?.plain_text || 'Unknown Project';
+    }
+
+    // Save email and project name to Notion database
     await createPageInDatabase(DATABASE_IDS.EMAIL_TEASER_DOWNLOADER, {
       Email: {
         title: [
@@ -43,14 +57,16 @@ export async function POST(req: NextRequest) {
           },
         ],
       },
+      Project: {
+        rich_text: [
+          {
+            text: {
+              content: projectName,
+            },
+          },
+        ],
+      },
     });
-
-    // Get the teaser file after successful email submission
-    const results = await getDatabase(DATABASE_IDS.LIVE_TRANSACTIONS);
-    const item = (results as PageObjectResponse[]).find((item) => item.id === projectId);
-    if (!item) {
-      return new Response(JSON.stringify({ error: 'Project not found.' }), { status: 404 });
-    }
 
     // Get file URL from Teaser property
     const teaser = item.properties?.Teaser;
