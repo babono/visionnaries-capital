@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2">
-            <h3 className="text-2xl font-bold mb-4">Visionnaires Capital Pte Ltd</h3>
+            <h3 className="text-2xl mb-4">Visionnaires Capital Pte Ltd</h3>
             <p className="text-gray-400 mb-6 max-w-md text-xs">
               Visionnaires Capital is a leading cross-border M&A advisory firm in Asia Pacific, delivering strategic, off-market transactions with global buyers
             </p>

@@ -274,11 +274,11 @@ export default function LiveTransactions() {
             <div className="overflow-x-auto">
               <table className="min-w-full border-separate border-spacing-y-6">
                 <thead>
-                  <tr className="text-blue-900 text-lg font-semibold">
-                    <th className="text-left px-4 pb-2">Description</th>
-                    <th className="text-left px-4 pb-2">EBITDA Range (M)</th>
-                    <th className="text-left px-4 pb-2">Description</th>
-                    <th className="text-left px-4 pb-2">Deal Teaser</th>
+                  <tr className="text-blue-900 text-lg">
+                    <th className="text-left px-4 pb-2 font-medium">Description</th>
+                    <th className="text-left px-4 pb-2 font-medium">EBITDA Range (M)</th>
+                    <th className="text-left px-4 pb-2 font-medium">Description</th>
+                    <th className="text-left px-4 pb-2 font-medium">Deal Teaser</th>
                   </tr>
                 </thead>
                 <tbody>
