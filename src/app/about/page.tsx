@@ -59,7 +59,7 @@ export default function About() {
               <div className="bg-white rounded-lg shadow p-8 mb-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                   <div>
-                    <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                    <h2 className="text-3xl font-medium text-gray-900 mb-6">
                       About Visionnaires Capital
                     </h2>
                     <p className="text-sm md:text-base text-gray-600 mb-6">
@@ -78,28 +78,28 @@ export default function About() {
                         <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                           <Award className="h-8 w-8 text-sky-600" />
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2">15+</h3>
+                        <h3 className="text-2xl font-medium text-gray-900 mb-2">15+</h3>
                         <p className="text-gray-600 text-sm">Years of Cross-Border M&A Experience</p>
                       </div>
                       <div className="text-center">
                         <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                           <DollarSign className="h-8 w-8 text-sky-600" />
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2">US$800M+</h3>
+                        <h3 className="text-2xl font-medium text-gray-900 mb-2">US$800M+</h3>
                         <p className="text-gray-600 text-sm">in Cumulative Deal Value Closed</p>
                       </div>
                       <div className="text-center">
                         <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                           <Handshake className="h-8 w-8 text-sky-600" />                          
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2">90%</h3>
+                        <h3 className="text-2xl font-medium text-gray-900 mb-2">90%</h3>
                         <p className="text-gray-600 text-sm">of Transactions Sold to Strategic Buyers Including Listed Corporates in Japan, U.S., and Europe</p>
                       </div>
                       <div className="text-center">
                         <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                           <Users className="h-8 w-8 text-sky-600" />
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2">100%</h3>
+                        <h3 className="text-2xl font-medium text-gray-900 mb-2">100%</h3>
                         <p className="text-gray-600 text-sm">Superior Outcomes for Clients Achieved 100% Full Exits and Valuations 30–40% Above Prior Benchmarks</p>
                       </div>
                     </div>
@@ -127,22 +127,22 @@ export default function About() {
                   />
                   {/* Desktop Title */}
                   <div className="relative z-10 flex flex-col items-start w-full">
-                    <h2 className="hidden md:block text-2xl md:text-3xl font-semibold text-gray-900 mb-2 py-2">
+                    <h2 className="hidden md:block text-2xl md:text-3xl font-medium text-gray-900 mb-2 py-2">
                       Message from CEO
                     </h2>
                   </div>
                 </div>
                 {/* Mobile Title */}
                 <div className="block md:hidden px-8 pt-4 pb-0">
-                  <h2 className="text-2xl font-semibold text-gray-900 mb-2 py-2 rounded text-left">
+                  <h2 className="text-2xl font-medium text-gray-900 mb-2 py-2 rounded text-left">
                     Message from CEO
                   </h2>
                 </div>
                 <div className="px-8 py-8 text-lg relative">
                   <p className="mb-4">
-                    <span className="font-semibold">Founder’s Foreword</span>
+                    <span className="font-medium">Founder’s Foreword</span>
                   </p>
-                    <p className="mb-4">
+                    <p className="mb-4 font-light">
                     When I started Visionnaires Capital in 2015, we had no capital, no legacy portfolio, and no shortcuts—only belief. Belief in building something meaningful, guided by values that matter. From those humble beginnings, we&apos;ve grown into one of Asia&apos;s leading boutique cross-border M&amp;A firms, known for execution, trust, and a relentless commitment to our clients.
                     <br /><br />
                     As someone who came from nothing and built a business from scratch, I know what it means to be an entrepreneur. I understand the fears, sacrifices, and aspirations behind every company—because I&apos;ve lived it. That&apos;s why we advise not just with expertise, but with empathy.
@@ -160,8 +160,8 @@ export default function About() {
                     Thank you for placing your trust in us. We look forward to being not just your advisors—but your allies.
                     </p>
                   <div className="text-right">
-                    <div className="text-5xl font-bold text-black leading-none mb-4">JOEY</div>
-                    <div className="text-lg font-medium leading-tight">
+                    <div className="text-5xl font-medium text-black leading-none mb-4">JOEY</div>
+                    <div className="text-lg font-normal leading-tight">
                       Joey David Yeo<br />
                       Managing Director and CEO<br />
                       July 2025
@@ -242,7 +242,7 @@ export default function About() {
                   <div className="p-8 flex flex-col justify-center">
                     <div className="space-y-6">
                       <div>
-                        <h2 className="text-2xl font-bold mb-4">Our Specialty:</h2>
+                        <h2 className="text-2xl font-medium mb-4">Our Specialty:</h2>
                         <p className="text-xs md:text-sm leading-relaxed">                          
                           Our core strength lies in cross-border M&A, where we leverage a deeply entrenched global buyer network—spanning Japan, the U.S., Europe, and beyond—to run competitive processes that maximise valuation, structure, and execution certainty.
                           <br /><br />

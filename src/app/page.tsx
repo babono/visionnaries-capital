@@ -58,7 +58,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[400px]">
           {/* Left: Who We Are */}
           <div className="flex flex-col justify-center px-6 md:px-24 py-16 lg:py-24 bg-white">
-            <h3 className="uppercase text-sm font-semibold text-sky-600 mb-2">Who We Are</h3>
+            <h3 className="uppercase text-sm font-medium text-sky-600 mb-2">Who We Are</h3>
             <p className="text-xs md:text-sm mb-8">
               <strong>Founded in 2011, Visionnaires Capital is a leading boutique M&A advisory firm specialising in cross-border transactions for Southeast Asian and Asia Pacific companies seeking international buyers.</strong>
               <br /><br />
@@ -70,7 +70,7 @@ export default function Home() {
             </p>
             <a
               href="/about"
-              className="border border-sky-600 text-sky-600 px-8 py-3 rounded-md font-semibold hover:bg-blue-50 transition-colors inline-block w-fit"
+              className="border border-sky-600 text-sky-600 px-8 py-3 rounded-md font-medium hover:bg-blue-50 transition-colors inline-block w-fit"
             >
               Learn More
             </a>
@@ -81,19 +81,19 @@ export default function Home() {
             {/* Stats content */}
             <div className="relative z-20 grid grid-cols-2 gap-8 w-full max-w-xl text-white items-center">
               <div className="text-center">
-                <div className="text-2xl md:text-3xl font-bold mb-1">15+</div>
+                <div className="text-2xl md:text-3xl font-medium mb-1">15+</div>
                 <div className="text-xs md:text-sm opacity-80">Years of Cross-Border M&A Experience</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl md:text-3xl font-bold mb-1">US$800M+</div>
+                <div className="text-2xl md:text-3xl font-medium mb-1">US$800M+</div>
                 <div className="text-xs md:text-sm opacity-80">in Cumulative Deal Value Closed</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl md:text-3xl font-bold mb-1">90%</div>
+                <div className="text-2xl md:text-3xl font-medium mb-1">90%</div>
                 <div className="text-xs md:text-sm opacity-80">of Transactions Sold to Strategic Buyers Including Listed Corporates</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl md:text-3xl font-bold mb-1">100%</div>
+                <div className="text-2xl md:text-3xl font-medium mb-1">100%</div>
                 <div className="text-xs md:text-sm opacity-80">Superior Outcomes for Clients - Full Exits and Valuations 30-40% Above Prior Benchmarks</div>
               </div>
             </div>
@@ -120,7 +120,7 @@ export default function Home() {
           </div>          
           {/* Right: Stats with full background */}
           <div className="flex flex-col justify-center px-6 md:px-24 py-16 lg:py-24 bg-white">
-            <h3 className="uppercase text-sm font-semibold text-sky-600 mb-2">Our Services</h3>
+            <h3 className="uppercase text-sm font-medium text-sky-600 mb-2">Our Services</h3>
             <p className="text-xs md:text-sm mb-8">
               <strong>We provide end-to-end cross-border M&A advisory services, covering both buy-side and sell-side mandates across diverse sectors and geographies.</strong>
               <br /><br />
@@ -130,7 +130,7 @@ export default function Home() {
             </p>
             <Link
               href="/services"
-              className="border border-sky-600 text-sky-600 px-8 py-3 rounded-md font-semibold hover:bg-blue-50 transition-colors inline-block w-fit"
+              className="border border-sky-600 text-sky-600 px-8 py-3 rounded-md font-medium hover:bg-blue-50 transition-colors inline-block w-fit"
             >
               Learn More
             </Link>
@@ -143,7 +143,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[400px]">
           {/* Left: Track Records */}
           <div className="flex flex-col justify-center px-6 md:px-24 py-16 lg:py-24 bg-white">
-            <h3 className="uppercase text-sm font-semibold text-sky-600 mb-2">Track Record</h3>
+            <h3 className="uppercase text-sm font-medium text-sky-600 mb-2">Track Record</h3>
             <p className="text-xs md:text-sm mb-8">
               Over the years, we’ve built a strong reputation for executing complex cross-border transactions with discretion, agility, and a focus on long-term value creation.
               <br /><br />
@@ -151,7 +151,7 @@ export default function Home() {
             </p>
             <Link
               href="/track-record"
-              className="border border-sky-600 text-sky-600 px-8 py-3 rounded-md font-semibold hover:bg-blue-50 transition-colors inline-block w-fit"
+              className="border border-sky-600 text-sky-600 px-8 py-3 rounded-md font-medium hover:bg-blue-50 transition-colors inline-block w-fit"
             >
               Learn More
             </Link>
@@ -194,13 +194,13 @@ export default function Home() {
             />                        
           </div>          
           <div className="flex flex-col justify-center px-6 md:px-24 py-16 lg:py-24 bg-white">
-            <h3 className="uppercase text-sm font-semibold text-sky-600 mb-2">Live Transactions</h3>
+            <h3 className="uppercase text-sm font-medium text-sky-600 mb-2">Live Transactions</h3>
             <p className="text-xs md:text-sm mb-8">
               Explore projects that we are currently managing from different industries and regions.
             </p>
             <Link
               href="/current-transactions"
-              className="border border-sky-600 text-sky-600 px-8 py-3 rounded-md font-semibold hover:bg-blue-50 transition-colors inline-block w-fit"
+              className="border border-sky-600 text-sky-600 px-8 py-3 rounded-md font-medium hover:bg-blue-50 transition-colors inline-block w-fit"
             >
               Learn More
             </Link>
