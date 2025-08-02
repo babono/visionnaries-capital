@@ -39,7 +39,7 @@ export default function Services() {
                 </div>
               </div>
               <div className="p-4">
-                <h4 className="text-lg font-semibold text-gray-700 mb-2 text-center">Unlocking Maximum Value</h4>
+                <h4 className="text-lg font-medium text-gray-700 mb-2 text-center">Unlocking Maximum Value</h4>
                 <div className="text-gray-600 text-left space-y-4">
                   <p>
                     In our sell-side mandates, we work closely with shareholders and management teams to position the business for a competitive, value-maximising outcome.
@@ -48,7 +48,7 @@ export default function Services() {
                     We go beyond traditional advisory. We actively manage the full transaction process to ensure valuation is maximised, risks are mitigated, and closing certainty is high.
                   </p>
                   <div>
-                    <p className="font-semibold mb-2">Our typical scope includes:</p>
+                    <p className="font-medium mb-2">Our typical scope includes:</p>
                     <ul className="list-disc list-inside space-y-1 ml-4">
                       <li>Internal valuation and benchmarking</li>
                       <li>Strategic positioning tailored to global acquirers</li>
@@ -75,7 +75,7 @@ export default function Services() {
                 </div>
               </div>
               <div className="p-4">
-                <h4 className="text-lg font-semibold text-gray-700 mb-2 text-center">Empowering your growth</h4>
+                <h4 className="text-lg font-medium text-gray-700 mb-2 text-center">Empowering your growth</h4>
                 <div className="text-gray-600 text-left space-y-4">
                   <p>
                     At Visionnaires Capital, we specialise in helping corporate and financial investors execute strategic acquisitions across Southeast Asia and the broader Asia Pacific region.
@@ -84,7 +84,7 @@ export default function Services() {
                     What sets us apart is our origination capability—we don&apos;t just wait for deals to come to market. We proactively source and unlock proprietary, off-market opportunities that are aligned with your strategic objectives and offer superior value. This direct access allows our clients to avoid crowded processes and inflated pricing driven by competitive tension.
                   </p>
                   <div>
-                    <p className="font-semibold mb-2">Our typical buy-side scope includes:</p>
+                    <p className="font-medium mb-2">Our typical buy-side scope includes:</p>
                     <ul className="list-disc list-inside space-y-1 ml-4">
                       <li>Off-market origination and discreet target outreach</li>
                       <li>Strategic fit assessment and valuation benchmarking—ensuring discipline in pricing, especially where buyer profile may otherwise trigger inflated seller expectations</li>
