@@ -236,7 +236,7 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
       <div className="relative py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-light text-gray-900 mb-4">
               Leadership across the largest and most complex situations
             </h2>
             <p className="text-gray-600">No projects available</p>
@@ -251,7 +251,7 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
       <div className="max-w-7xl mx-auto">
         {/* Title */}
         <div className="mb-8 px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-normal text-gray-900 mb-4">
+          <h2 className="text-3xl font-light text-gray-900 mb-4">
             Leadership across the largest and most complex situations
           </h2>
         </div>
@@ -307,7 +307,7 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
               <div className="card-content bg-white rounded-lg shadow-lg overflow-hidden h-full flex flex-col">
                 {/* Type */}
                 <div className="bg-blue-900 text-white text-center px-4 h-12 flex items-center justify-center">
-                  <h3 className="text-sm font-medium uppercase tracking-wide leading-tight">
+                  <h3 className="text-sm font-normal uppercase tracking-wide leading-tight">
                     {project.type || "No Type"}
                   </h3>
                 </div>
@@ -374,7 +374,7 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
 
                 {/* Year Footer - always at bottom */}
                 <div className="p-4 text-center">
-                  <div className="text-2xl font-medium text-blue-900">
+                  <div className="text-2xl font-normal text-blue-900">
                     {project.year || "N/A"}
                   </div>
                 </div>

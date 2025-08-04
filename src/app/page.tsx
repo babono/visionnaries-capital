@@ -93,7 +93,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/40" />
         {/* Content */}
         <div className="relative z-10 w-full flex flex-col items-center justify-center px-4 py-24">
-          <h1 className="text-5xl md:text-6xl text-center mb-4">
+          <h1 className="text-5xl md:text-6xl text-center mb-4 font-light text-shadow-lg">
             Cross Border<br />M&A Specialist
           </h1>
           <p className="text-lg md:text-2xl text-center mb-8 max-w-2xl">
