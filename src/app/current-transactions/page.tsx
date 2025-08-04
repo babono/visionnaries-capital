@@ -329,7 +329,7 @@ export default function LiveTransactions() {
                   </button>
                 </form>
                 <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded text-sm text-blue-700">
-                  Your email will be saved for our records. Next, you'll need to enter a password to download the teaser.
+                  Your email will be saved for our records. Next, you&apos;ll need to enter a password to download the teaser.
                 </div>
               </>
             ) : (
