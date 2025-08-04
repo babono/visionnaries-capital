@@ -19,6 +19,7 @@ interface NotionDatabaseItem {
       }>;
       url?: string;
       number?: number;
+      checkbox?: boolean;
     };
   };
   url?: string;
@@ -51,11 +52,9 @@ function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
     // Kolom 3: Description (kanan)
     const descriptionProperty = properties.Description;
     const description = descriptionProperty?.rich_text?.[0]?.plain_text || "";
-    // Kolom 4: Deal Teaser (url)
-    const dealTeaserProperty = properties.Teaser;
-    const url =
-      dealTeaserProperty?.files?.[0]?.external?.url ||
-      dealTeaserProperty?.files?.[0]?.file?.url;
+    // Kolom 4: Deal Teaser (check if exists)
+    const hasTeaserProperty = properties.HasTeaser;
+    const hasTeaser = hasTeaserProperty?.checkbox || false;
     // Kolom 5: Order
     const orderProperty = properties.Order;
     const order = orderProperty?.number || index + 1;
@@ -67,7 +66,7 @@ function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
       description,
       brief: "",
       thumbnail: undefined,
-      url,
+      url: hasTeaser ? "teaser-available" : undefined, // Use a placeholder when teaser exists
       label: undefined,
       value,
       order,
@@ -279,13 +278,17 @@ export default function LiveTransactions() {
                         {project.description}
                       </td>
                       <td className="px-4 py-2">
-                        <button
-                          onClick={() => handleDownloadClick(project.id)}
-                          className="inline-block px-4 py-2 bg-sky-600 text-white font-semibold rounded shadow hover:bg-sky-700 transition"
-                          disabled={downloading || submittingEmail}
-                        >
-                          Get Teaser
-                        </button>
+                        {project.url ? (
+                          <button
+                            onClick={() => handleDownloadClick(project.id)}
+                            className="inline-block px-4 py-2 bg-sky-600 text-white font-semibold rounded shadow hover:bg-sky-700 transition"
+                            disabled={downloading || submittingEmail}
+                          >
+                            Get Teaser
+                          </button>
+                        ) : (
+                          <span className="text-gray-400 text-sm">No teaser available</span>
+                        )}
                       </td>
                     </tr>
                   ))}

@@ -9,9 +9,22 @@ export async function GET() {
     const sanitizedResults = databaseResults.map((item) => {
       // Convert to plain object and remove sensitive data
       const plainItem = JSON.parse(JSON.stringify(item));
+      
+      // Check if teaser exists before removing it
+      const hasTeaser = !!(plainItem.properties?.Teaser?.files?.[0]?.external?.url || 
+                          plainItem.properties?.Teaser?.files?.[0]?.file?.url);
+      
       if (plainItem.properties?.Teaser) {
         delete plainItem.properties.Teaser;
       }
+      
+      // Add a flag to indicate if teaser exists
+      if (plainItem.properties) {
+        plainItem.properties.HasTeaser = {
+          checkbox: hasTeaser
+        };
+      }
+      
       return plainItem;
     });
     
