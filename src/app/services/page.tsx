@@ -15,7 +15,7 @@ export default function Services() {
             alt="Services"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-sky-700/50 to-sky-500/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 to-slate-750/40"></div>
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
@@ -34,7 +34,7 @@ export default function Services() {
             <div className="bg-white rounded-xl shadow flex flex-col overflow-hidden">
               <div className="relative h-48">
                 <img src="/valuation-header.jpg" alt="Valuation Advisory" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-sky-700/50 to-sky-500/30 flex items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 to-slate-750/40 flex items-center justify-center">
                   <h3 className="text-2xl font-medium text-white text-center text-shadow-lg">Sell-side & M&A Advisory</h3>
                 </div>
               </div>
@@ -70,7 +70,7 @@ export default function Services() {
             <div className="bg-white rounded-xl shadow flex flex-col overflow-hidden">
               <div className="relative h-48">
                 <img src="/capital-header.jpg" alt="Capital Advisory" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-sky-700/50 to-sky-500/30 flex items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 to-slate-750/40 flex items-center justify-center">
                   <h3 className="text-2xl font-medium text-white text-center text-shadow-lg">Buyside M&A Advisory</h3>
                 </div>
               </div>

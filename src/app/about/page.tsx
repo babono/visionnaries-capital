@@ -25,7 +25,7 @@ export default function About() {
             alt="About Us"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-sky-700/10 to-sky-500/0"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 to-slate-750/40"></div>
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
@@ -196,42 +196,42 @@ export default function About() {
                         <img 
                           src="/flag-europe.png" 
                           alt="Europe Flag" 
-                          className="w-8 h-6 md:w-12 md:h-9 object-cover rounded"
+                          className="w-8 h-6 md:w-12 md:h-9 object-contain"
                         />
                       </div>
                       <div className="flex items-center justify-center">
                         <img 
                           src="/flag-japan.png" 
                           alt="Japan Flag" 
-                          className="w-8 h-6 md:w-12 md:h-9 object-cover rounded"
+                          className="w-8 h-6 md:w-12 md:h-9 object-contain"
                         />
                       </div>
                       <div className="flex items-center justify-center">
                         <img 
                           src="/flag-us.png" 
                           alt="US Flag" 
-                          className="w-8 h-6 md:w-12 md:h-9 object-cover rounded"
+                          className="w-8 h-6 md:w-12 md:h-9 object-contain"
                         />
                       </div>
                       <div className="flex items-center justify-center">
                         <img 
                           src="/flag-asean.png" 
                           alt="ASEAN Flag" 
-                          className="w-8 h-6 md:w-12 md:h-9 object-cover rounded"
+                          className="w-8 h-6 md:w-12 md:h-9 object-contain"
                         />
                       </div>
                       <div className="flex items-center justify-center">
                         <img 
                           src="/flag-hongkong.png" 
                           alt="Hong Kong Flag" 
-                          className="w-8 h-6 md:w-12 md:h-9 object-cover rounded"
+                          className="w-8 h-6 md:w-12 md:h-9 object-contain"
                         />
                       </div>
                       <div className="flex items-center justify-center">
                         <img 
                           src="/flag-india.png" 
                           alt="India Flag" 
-                          className="w-8 h-6 md:w-12 md:h-9 object-cover rounded"
+                          className="w-8 h-6 md:w-12 md:h-9 object-contain"
                         />
                       </div>
                     </div>
