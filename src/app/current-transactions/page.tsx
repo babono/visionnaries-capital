@@ -18,6 +18,7 @@ interface NotionDatabaseItem {
         external?: { url: string };
       }>;
       url?: string;
+      number?: number;
     };
   };
   url?: string;
@@ -33,6 +34,7 @@ interface Project {
   url?: string;
   label?: string;
   value?: string;
+  order?: number;
 }
 
 function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
@@ -54,6 +56,10 @@ function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
     const url =
       dealTeaserProperty?.files?.[0]?.external?.url ||
       dealTeaserProperty?.files?.[0]?.file?.url;
+    // Kolom 5: Order
+    const orderProperty = properties.Order;
+    const order = orderProperty?.number || index + 1;
+    
     projects.push({
       id: item.id || String(index + 1),
       name: projectName,
@@ -64,9 +70,12 @@ function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
       url,
       label: undefined,
       value,
+      order,
     });
   });
-  return projects;
+  
+  // Sort projects by order property
+  return projects.sort((a, b) => (a.order || 0) - (b.order || 0));
 }
 
 export default function LiveTransactions() {
