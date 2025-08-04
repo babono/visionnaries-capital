@@ -459,7 +459,7 @@ function TrackRecordContent({
             alt="Track Record"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-sky-700/50 to-sky-500/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 to-slate-750/40"></div>
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
