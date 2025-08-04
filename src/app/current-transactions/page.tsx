@@ -251,7 +251,7 @@ export default function LiveTransactions() {
               <table className="min-w-full border-separate border-spacing-y-6">
                 <thead>
                   <tr className="text-blue-900 text-lg">
-                    <th className="text-left px-4 pb-2 font-medium">Description</th>
+                    <th className="text-left px-4 pb-2 font-medium">Project Name</th>
                     <th className="text-left px-4 pb-2 font-medium">EBITDA Range (M)</th>
                     <th className="text-left px-4 pb-2 font-medium">Description</th>
                     <th className="text-left px-4 pb-2 font-medium">Deal Teaser</th>
