@@ -74,7 +74,7 @@ export default function LiveTransactions() {
   const [loading, setLoading] = useState(true);
   // Modal state
   const [showModal, setShowModal] = useState(false);
-  const [modalMode, setModalMode] = useState<'password' | 'email'>('email');
+  const [modalStep, setModalStep] = useState<'email' | 'password'>('email');
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -114,23 +114,10 @@ export default function LiveTransactions() {
     setError("");
     setPassword("");
     setEmail("");
-    setModalMode('email');
+    setModalStep('email');
     setShowModal(true);
     // Store the ID for later use
     setCurrentProjectId(id);
-  };
-
-  // Handler for switching modal mode
-  const switchToEmailMode = () => {
-    setError("");
-    setPassword("");
-    setModalMode('email');
-  };
-
-  const switchToPasswordMode = () => {
-    setError("");
-    setEmail("");
-    setModalMode('password');
   };
 
   // Handler for closing modal
@@ -139,7 +126,7 @@ export default function LiveTransactions() {
     setError("");
     setPassword("");
     setEmail("");
-    setModalMode('email');
+    setModalStep('email');
     setCurrentProjectId(null);
   };
 
@@ -168,27 +155,9 @@ export default function LiveTransactions() {
         return;
       }
 
-      // Download file directly after email submission
-      const blob = await res.blob();
-      const a = document.createElement("a");
-      a.href = window.URL.createObjectURL(blob);
-      
-      // Get filename from Content-Disposition header
-      const contentDisposition = res.headers.get('content-disposition');
-      let filename = 'teaser.pdf';
-      if (contentDisposition) {
-        const filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
-        if (filenameMatch) {
-          filename = filenameMatch[1];
-        }
-      }
-      
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setShowModal(false);
-      setEmail("");
+      // Move to password step after successful email submission
+      setModalStep('password');
+      setError("");
     } catch {
       setError("Failed to submit email.");
     } finally {
@@ -229,12 +198,19 @@ export default function LiveTransactions() {
       document.body.appendChild(a);
       a.click();
       a.remove();
-      setShowModal(false);
+      handleCloseModal();
     } catch {
       setError("Download failed.");
     } finally {
       setDownloading(false);
     }
+  };
+
+  // Handler for going back to email step
+  const handleBackToEmail = () => {
+    setError("");
+    setPassword("");
+    setModalStep('email');
   };
 
   return (
@@ -310,7 +286,7 @@ export default function LiveTransactions() {
           </div>
         </section>
       )}
-      {/* Password Modal */}
+      {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: 'rgb(0 0 0 / 50%)' }}>
           <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full relative mx-4">
@@ -323,9 +299,45 @@ export default function LiveTransactions() {
               &times;
             </button>
             
-            {modalMode === 'password' ? (
+            {modalStep === 'email' ? (
+              <>
+                <h2 className="text-xl font-bold mb-4 text-gray-900">Request Teaser</h2>
+                <p className="text-sm text-gray-600 mb-4">
+                  Step 1 of 2: Please provide your email address to continue
+                </p>
+                <form onSubmit={handleEmailSubmit}>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    className="w-full border border-gray-300 rounded px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="your.email@example.com"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    disabled={submittingEmail}
+                    autoFocus
+                    required
+                  />
+                  {error && <div className="text-red-600 mb-2 text-sm">{error}</div>}
+                  <button
+                    type="submit"
+                    className="w-full bg-sky-600 text-white font-semibold rounded px-4 py-2 hover:bg-sky-700 transition"
+                    disabled={submittingEmail}
+                  >
+                    {submittingEmail ? "Processing..." : "Continue"}
+                  </button>
+                </form>
+                <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded text-sm text-blue-700">
+                  Your email will be saved for our records. Next, you'll need to enter a password to download the teaser.
+                </div>
+              </>
+            ) : (
               <>
                 <h2 className="text-xl font-bold mb-4 text-gray-900">Access Teaser</h2>
+                <p className="text-sm text-gray-600 mb-4">
+                  Step 2 of 2: Enter the password to download the teaser
+                </p>
                 <form onSubmit={handlePasswordSubmit}>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Enter Password
@@ -345,58 +357,17 @@ export default function LiveTransactions() {
                     className="w-full bg-sky-600 text-white font-semibold rounded px-4 py-2 hover:bg-sky-700 transition mb-3"
                     disabled={downloading}
                   >
-                    {downloading ? "Downloading..." : "Download Now"}
+                    {downloading ? "Downloading..." : "Download Teaser"}
                   </button>
                 </form>
                 <div className="text-center">
-                  <p className="text-sm text-gray-600 mb-2">Don&apos;t have password?</p>
                   <button
-                    onClick={switchToEmailMode}
+                    onClick={handleBackToEmail}
                     className="text-blue-600 hover:text-blue-800 underline text-sm"
                     disabled={downloading}
                   >
-                    Submit your email instead
+                    ← Back to email step
                   </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <h2 className="text-xl font-bold mb-4 text-gray-900">Request Teaser</h2>
-                <form onSubmit={handleEmailSubmit}>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    className="w-full border border-gray-300 rounded px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="your.email@example.com"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    disabled={submittingEmail}
-                    autoFocus
-                    required
-                  />
-                  {error && <div className="text-red-600 mb-2 text-sm">{error}</div>}
-                  <button
-                    type="submit"
-                    className="w-full bg-sky-600 text-white font-semibold rounded px-4 py-2 hover:bg-sky-700 transition mb-3"
-                    disabled={submittingEmail}
-                  >
-                    {submittingEmail ? "Processing..." : "Submit & Download"}
-                  </button>
-                </form>
-                <div className="text-center">
-                  <p className="text-sm text-gray-600 mb-2">Have a password?</p>
-                  <button
-                    onClick={switchToPasswordMode}
-                    className="text-blue-600 hover:text-blue-800 underline text-sm"
-                    disabled={submittingEmail}
-                  >
-                    Enter password to download immediately
-                  </button>
-                </div>
-                <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded text-sm text-blue-700">
-                  Your email will be saved and the teaser will download automatically.
                 </div>
               </>
             )}
