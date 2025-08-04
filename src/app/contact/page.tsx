@@ -49,21 +49,21 @@ export default function ContactPage() {
           <div className="flex flex-wrap justify-center gap-8">
             {contacts.map((contact, idx) => (
               <div key={idx} className="flex flex-col items-start p-6 min-w-[40%] max-w-xs w-full">                
-                <span className="text-sky-600 text-2xl font-medium py-2 block">{contact.location}</span>                
+                <span className="text-sky-600 text-2xl font-normal py-2 block">{contact.location}</span>                
                 <div className="text-lg space-y-2 w-full">
                   <div className="flex w-full">
-                    <span className="font-medium min-w-[90px]">Email</span>
-                    <span className="font-medium min-w-[10px]">: </span>
+                    <span className="min-w-[90px]">Email</span>
+                    <span className="min-w-[10px]">: </span>
                     <span className="flex-1">{contact.email}</span>
                   </div>
                   <div className="flex w-full">
-                    <span className="font-medium min-w-[90px]">Phone</span>
-                    <span className="font-medium min-w-[10px]">: </span>
+                    <span className="min-w-[90px]">Phone</span>
+                    <span className="min-w-[10px]">: </span>
                     <span className="flex-1">{contact.phone}</span>
                   </div>
                   <div className="flex w-full items-start">
-                    <span className="font-medium min-w-[90px]">Address</span>
-                    <span className="font-medium min-w-[10px]">: </span>
+                    <span className="min-w-[90px]">Address</span>
+                    <span className="min-w-[10px]">: </span>
                     <pre className="inline whitespace-pre-wrap break-words font-sans text-lg align-middle flex-1 m-0 p-0 bg-none border-none">{contact.address}</pre>
                   </div>
                 </div>
