@@ -7,7 +7,7 @@ import Footer from '../../components/Footer';
 const TABS = [
   { label: 'Overview', key: 'overview' },
   { label: "Founder's Message", key: 'founder' },
-  { label: 'Our Specialty', key: 'specialty' },
+  { label: 'Our Expertise', key: 'expertise' },
 ];
 
 export default function About() {
@@ -25,7 +25,7 @@ export default function About() {
             alt="About Us"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-sky-700/50 to-sky-500/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-sky-700/10 to-sky-500/0"></div>
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
@@ -160,7 +160,6 @@ export default function About() {
                     Thank you for placing your trust in us. We look forward to being not just your advisors—but your allies.
                     </p>
                   <div className="text-right">
-                    <div className="text-5xl font-medium text-black leading-none mb-4">JOEY</div>
                     <div className="text-lg font-normal leading-tight">
                       Joey David Yeo<br />
                       Managing Director and CEO<br />
@@ -170,7 +169,7 @@ export default function About() {
                 </div>
               </div>
             )}
-            {activeTab === 'specialty' && (
+            {activeTab === 'expertise' && (
               <div className="bg-white rounded-lg shadow mb-8 overflow-hidden">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
                   {/* Left side - World Map and Statistics */}
@@ -238,11 +237,11 @@ export default function About() {
                     </div>
                   </div>
                   
-                  {/* Right side - Specialty Content */}
+                  {/* Right side - expertise Content */}
                   <div className="p-8 flex flex-col justify-center">
                     <div className="space-y-6">
                       <div>
-                        <h2 className="text-2xl font-medium mb-4">Our Specialty:</h2>
+                        <h2 className="text-2xl font-medium mb-4">Our expertise:</h2>
                         <p className="text-xs md:text-sm leading-relaxed">                          
                           Our core strength lies in cross-border M&A, where we leverage a deeply entrenched global buyer network—spanning Japan, the U.S., Europe, and beyond—to run competitive processes that maximise valuation, structure, and execution certainty.
                           <br /><br />
