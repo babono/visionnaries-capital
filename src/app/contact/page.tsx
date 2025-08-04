@@ -6,7 +6,7 @@ const contacts = [
   {
     location: "Singapore",
     email: "info@vision-cap.com",
-    phone: "+65 94877077",
+    phone: "+65 83371398",
     address: `9 Temasek Blvd
 #07-01 Suntec Tower 2
 Singapore 038989`,
@@ -14,10 +14,10 @@ Singapore 038989`,
   {
     location: "Hong Kong",
     email: "info@vision-cap.com",
-    phone: "+65 94877077",
-    address:`9 Temasek Blvd
-#07-01 Suntec Tower 2
-Singapore 038989`,
+    phone: "+65 83371398",
+    address:`Suite 4002A, 40/F
+Tower 1, Lippo Centre
+89 Queensway, Admiralty, Hong Kong`,
   },  
 ];
 
