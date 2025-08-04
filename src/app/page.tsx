@@ -1,12 +1,77 @@
 "use client";
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+
+// Types for Notion database
+interface NotionDatabaseItem {
+  id: string;
+  properties: {
+    [key: string]: {
+      title?: Array<{ plain_text: string }>;
+      select?: { name: string };
+      multi_select?: Array<{ name: string }>;
+      rich_text?: Array<{ plain_text: string }>;
+      number?: number;
+      files?: Array<{
+        file?: { url: string };
+        external?: { url: string };
+      }>;
+    };
+  };
+}
+
+interface TrackRecordProject {
+  id: string;
+  logo1?: string;
+  logo2?: string;
+}
+
+// Helper function to parse Notion database into projects
+function parseTrackRecordData(databaseResults: NotionDatabaseItem[]): TrackRecordProject[] {
+  return databaseResults.map((item, index) => {
+    const properties = item.properties || {};
+
+    const logo1Property = properties["Logo 1"];
+    const logo1 = logo1Property?.files?.[0]?.external?.url || logo1Property?.files?.[0]?.file?.url;
+
+    const logo2Property = properties["Logo 2"];
+    const logo2 = logo2Property?.files?.[0]?.external?.url || logo2Property?.files?.[0]?.file?.url;
+
+    return {
+      id: item.id || String(index + 1),
+      logo1: logo1,
+      logo2: logo2,
+    };
+  });
+}
 
 export default function Home() {
   const aboutRef = useRef<HTMLElement>(null); // Add ref for About section
   const servicesRef = useRef<HTMLElement>(null);
+  const [trackRecordProjects, setTrackRecordProjects] = useState<TrackRecordProject[]>([]);
+
+  useEffect(() => {
+    async function fetchTrackRecords() {
+      try {
+        const response = await fetch("/api/track-records");
+        const data = await response.json();
+
+        if (response.ok && data.success && data.projects) {
+          const parsedProjects = parseTrackRecordData(data.projects as NotionDatabaseItem[]);
+          // Get only first 4 projects
+          setTrackRecordProjects(parsedProjects.slice(0, 4));
+        }
+      } catch (error) {
+        console.error("Error fetching track records:", error);
+        // Keep empty array as fallback
+      }
+    }
+
+    fetchTrackRecords();
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -161,18 +226,57 @@ export default function Home() {
             <div className="absolute inset-0 bg-[#0077C6] z-10" />
             {/* Companies content */}
             <div className="relative z-20 grid grid-cols-2 gap-12 w-full max-w-xl">
-              <Link href="/track-record" className="flex justify-center items-center bg-white rounded-lg p-4 hover:shadow-lg transition-shadow">
-                <img src="/logo-myrepublic.png" alt="MyRepublic" className="max-h-16" />
-              </Link>              
-              <Link href="/track-record" className="flex justify-center items-center bg-white rounded-lg p-4 hover:shadow-lg transition-shadow">
-                <img src="/logo-soupspoon.png" alt="The Soup Spoon" className="max-h-16" />
-              </Link>
-              <Link href="/track-record" className="flex justify-center items-center bg-white rounded-lg p-4 hover:shadow-lg transition-shadow">
-                <img src="/logo-twelvecupcakes.png" alt="Twelve Cupcakes" className="max-h-16" />
-              </Link>
-              <Link href="/track-record" className="flex justify-center items-center bg-white rounded-lg p-4 hover:shadow-lg transition-shadow">
-                <img src="/logo-qoo10.png" alt="Qoo10" className="max-h-16" />
-              </Link>              
+              {trackRecordProjects.length > 0 ? (
+                trackRecordProjects.map((project, index) => (
+                  <Link 
+                    key={project.id} 
+                    href="/track-record" 
+                    className="flex justify-center items-center bg-white rounded-lg p-4 hover:shadow-lg transition-shadow"
+                  >
+                    {project.logo1 ? (
+                      <div className="relative w-full h-16">
+                        <Image
+                          src={project.logo1}
+                          alt={`Company ${index + 1}`}
+                          fill
+                          className="object-contain"
+                          sizes="200px"
+                        />
+                      </div>
+                    ) : project.logo2 ? (
+                      <div className="relative w-full h-16">
+                        <Image
+                          src={project.logo2}
+                          alt={`Company ${index + 1}`}
+                          fill
+                          className="object-contain"
+                          sizes="200px"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-full h-16 bg-gray-200 rounded flex items-center justify-center">
+                        <span className="text-gray-400 text-sm">No Logo</span>
+                      </div>
+                    )}
+                  </Link>
+                ))
+              ) : (
+                // Fallback to static images if API fails
+                <>
+                  <Link href="/track-record" className="flex justify-center items-center bg-white rounded-lg p-4 hover:shadow-lg transition-shadow">
+                    <img src="/logo-myrepublic.png" alt="MyRepublic" className="max-h-16" />
+                  </Link>              
+                  <Link href="/track-record" className="flex justify-center items-center bg-white rounded-lg p-4 hover:shadow-lg transition-shadow">
+                    <img src="/logo-soupspoon.png" alt="The Soup Spoon" className="max-h-16" />
+                  </Link>
+                  <Link href="/track-record" className="flex justify-center items-center bg-white rounded-lg p-4 hover:shadow-lg transition-shadow">
+                    <img src="/logo-twelvecupcakes.png" alt="Twelve Cupcakes" className="max-h-16" />
+                  </Link>
+                  <Link href="/track-record" className="flex justify-center items-center bg-white rounded-lg p-4 hover:shadow-lg transition-shadow">
+                    <img src="/logo-qoo10.png" alt="Qoo10" className="max-h-16" />
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
