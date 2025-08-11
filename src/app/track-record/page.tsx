@@ -42,6 +42,8 @@ interface Project {
   transactionValue?: string;
   country?: string;
   year?: string;
+  explanation?: string;
+  name?: string; // Add project name from title property
 }
 
 // Helper function to parse Notion database into projects
@@ -50,6 +52,10 @@ function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
   databaseResults.forEach((item, index) => {
     // Extract properties from database item
     const properties = item.properties || {};
+
+    // Get name from "Name" property (title field in Notion)
+    const nameProperty = properties.Name;
+    const name = nameProperty?.title?.[0]?.plain_text;
 
     // Get type from "Type" property
     const typeProperty = properties.Type;
@@ -84,8 +90,13 @@ function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
     const countryProperty = properties.Country;
     const country = countryProperty?.rich_text?.[0]?.plain_text;
 
+    // Add explanation property
+    const explanationProperty = properties.Explanation;
+    const explanation = explanationProperty?.rich_text?.[0]?.plain_text;
+
     projects.push({
       id: item.id || String(index + 1),
+      name: name,
       type: type,
       logo1: logo1,
       text1: text1,
@@ -94,16 +105,87 @@ function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
       transactionValue: transactionValue,
       country: country,
       year: year,
+      explanation: explanation,
     });
   });
 
   return projects;
 }
 
+// Add Modal Component
+function ExplanationModal({ 
+  isOpen, 
+  onClose, 
+  explanation, 
+  projectType,
+  projectName
+}: { 
+  isOpen: boolean; 
+  onClose: () => void; 
+  explanation: string; 
+  projectType: string;
+  projectName?: string;
+}) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <div 
+        className="fixed inset-0 bg-black opacity-40 transition-opacity"
+        onClick={onClose}
+      />
+      
+      {/* Modal */}
+      <div className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
+        {/* Header */}
+        <div className="bg-blue-900 text-white px-6 py-4 flex justify-between items-center">
+          <div>
+            <h3 className="text-lg font-semibold">
+              {projectName ? `${projectName} - Deal Explanation` : `Deal Explanation - ${projectType}`}
+            </h3>
+            {projectName && (
+              <p className="text-sm text-blue-200 mt-1">{projectType}</p>
+            )}
+          </div>
+          <button
+            onClick={onClose}
+            className="text-white hover:text-gray-200 transition-colors"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        {/* Content */}
+        <div className="p-6 overflow-y-auto">
+          <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+            {explanation}
+          </p>
+        </div>
+        
+      </div>
+    </div>
+  );
+}
+
 // Flickity Slider Component
 function FlickitySlider({ projects }: { projects: Project[] }) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const flickityRef = useRef<FlickityInstance | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (project: Project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedProject(null);
+  };
 
   useEffect(() => {
     if (
@@ -372,6 +454,18 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
                   </div>
                 )}
 
+                {/* Explanation Button - only show if explanation exists */}
+                {project.explanation && (
+                  <div className="px-4 pb-2 text-center">
+                    <button
+                      onClick={() => openModal(project)}
+                      className="px-3 py-1 text-xs bg-sky-600 text-white rounded hover:bg-sky-700 transition-colors"
+                    >
+                      Explanation
+                    </button>
+                  </div>
+                )}
+
                 {/* Year Footer - always at bottom */}
                 <div className="p-4 text-center">
                   <div className="text-2xl font-normal text-blue-900">
@@ -382,6 +476,17 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
             </div>
           ))}
         </div>
+        
+        {/* Modal */}
+        {selectedProject && (
+          <ExplanationModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            explanation={selectedProject.explanation || "No explanation available"}
+            projectType={selectedProject.type}
+            projectName={selectedProject.name}
+          />
+        )}
       </div>
     </div>
   );
