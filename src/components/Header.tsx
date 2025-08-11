@@ -82,7 +82,7 @@ export default function Header() {
 					<div className="px-2 pt-2 pb-3 space-y-1">
 						{navigation.map((item) => (
 							<Link key={item.title} href={item.href}>								
-								<div className="text-sky-600 block px-3 py-2 text-base">
+								<div className="block px-3 py-2 text-base">
 									{item.title}
 								</div>																
 							</Link>
