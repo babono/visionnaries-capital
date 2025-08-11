@@ -92,13 +92,13 @@ export default function Header() {
 			>
 				<div className="flex flex-col h-full">
 					{/* Navigation Links */}
-					<div className="flex-1 flex flex-col justify-center items-center space-y-8 px-8">
+					<div className="pt-16 px-8">
 						{navigation.map((item, index) => (
 							<Link 
 								key={item.title} 
 								href={item.href}
 								onClick={() => setIsMenuOpen(false)}
-								className={`block text-white text-2xl font-light tracking-wider hover:text-blue-200 transition-all duration-500 transform ${
+								className={`block text-white text-2xl font-light tracking-wider hover:text-blue-200 transition-all duration-500 transform mb-8 ${
 									isMenuOpen 
 										? 'translate-x-0 opacity-100' 
 										: 'translate-x-8 opacity-0'
