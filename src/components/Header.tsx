@@ -25,8 +25,10 @@ export default function Header() {
 
 	return (
 		<header
-			className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-lg"
-			style={{ backgroundColor: '#fff' }}
+			className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-lg ${
+				isMenuOpen ? 'bg-blue-900' : ''
+			}`}
+			style={{ backgroundColor: isMenuOpen ? '#1e3a8a' : '#fff' }}
 		>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex items-center justify-between h-16 lg:h-20">
@@ -41,7 +43,9 @@ export default function Header() {
 							style={{
 								width: "auto",
 								height: "auto",
-								filter: "drop-shadow(0px 100px 0 #0077C6)",
+								filter: isMenuOpen 
+									? "drop-shadow(0px 100px 0 #ffffff) brightness(0) invert(1)"
+									: "drop-shadow(0px 100px 0 #0077C6)",
 								transform: "translateY(-100px)"
 							}}
 							priority={false}
@@ -65,7 +69,11 @@ export default function Header() {
 					{/* Mobile Menu Button */}
 					<button
 						onClick={() => setIsMenuOpen(!isMenuOpen)}
-						className="lg:hidden p-2 rounded-md transition-colors text-sky-600 hover:bg-white/10"
+						className={`lg:hidden p-2 rounded-md transition-colors ${
+							isMenuOpen 
+								? "text-white hover:bg-white/10" 
+								: "text-sky-600 hover:bg-white/10"
+						}`}
 					>
 						{isMenuOpen ? (
 							<X className="h-6 w-6" />
@@ -77,19 +85,34 @@ export default function Header() {
 			</div>
 
 			{/* Mobile Navigation */}
-			{isMenuOpen && (
-				<div className="lg:hidden border-t border-gray-700" style={{ backgroundColor: '#fff' }}>
-					<div className="px-2 pt-2 pb-3 space-y-1">
-						{navigation.map((item) => (
-							<Link key={item.title} href={item.href}>								
-								<div className="block px-3 py-2 text-base">
-									{item.title}
-								</div>																
+			<div 
+				className={`lg:hidden fixed top-16 lg:top-20 right-0 h-screen w-full bg-blue-900 transform transition-transform duration-500 ease-in-out z-40 ${
+					isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+				}`}
+			>
+				<div className="flex flex-col h-full">
+					{/* Navigation Links */}
+					<div className="flex-1 flex flex-col justify-center items-center space-y-8 px-8">
+						{navigation.map((item, index) => (
+							<Link 
+								key={item.title} 
+								href={item.href}
+								onClick={() => setIsMenuOpen(false)}
+								className={`block text-white text-2xl font-light tracking-wider hover:text-blue-200 transition-all duration-500 transform ${
+									isMenuOpen 
+										? 'translate-x-0 opacity-100' 
+										: 'translate-x-8 opacity-0'
+								}`}
+								style={{
+									transitionDelay: isMenuOpen ? `${index * 100}ms` : '0ms'
+								}}
+							>
+								{item.title}
 							</Link>
 						))}
 					</div>
 				</div>
-			)}
+			</div>
 		</header>
 	);
 }
