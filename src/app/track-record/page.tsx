@@ -259,7 +259,7 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
           .carousel-cell .card-content {
             width: 100%;
             height: 100%;
-            min-height: 420px;
+            min-height: 400px;
             margin-bottom: 1rem;
           }
           @media (max-width: 1024px) {
@@ -398,13 +398,13 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
                 <div className="p-6 text-center flex-grow space-y-6">
                   {/* Logo 1 - only show if exists */}
                   {project.logo1 && (
-                    <div className="relative h-20 flex items-center justify-center">
+                    <div className="relative h-14 flex items-center justify-center">
                       <Image
                         src={project.logo1}
                         alt="Logo 1"
                         fill
                         className="object-contain"
-                        sizes="250px"
+                        sizes="220px"
                         priority={index < 4}
                       />
                     </div>
