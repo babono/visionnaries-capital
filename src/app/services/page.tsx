@@ -35,11 +35,11 @@ export default function Services() {
               <div className="relative h-48">
                 <img src="/valuation-header.jpg" alt="Valuation Advisory" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 to-slate-750/40 flex items-center justify-center">
-                  <h3 className="text-2xl font-normal text-white text-center text-shadow-lg">Sell-side & M&A Advisory</h3>
+                  <h3 className="text-2xl font-normal text-white text-center text-shadow-lg">Sell-side M&A advisory</h3>
                 </div>
               </div>
               <div className="p-4">
-                <h4 className="text-lg font-normal text-gray-700 mb-2 text-center">Unlocking Maximum Value</h4>
+                <h4 className="text-lg font-semibold text-gray-700 mb-2 text-center">Unlocking Maximum Value</h4>
                 <div className="text-gray-600 text-left space-y-4">
                   <p>
                     In our sell-side mandates, we work closely with shareholders and management teams to position the business for a competitive, value-maximising outcome.
@@ -75,7 +75,7 @@ export default function Services() {
                 </div>
               </div>
               <div className="p-4">
-                <h4 className="text-lg font-normal text-gray-700 mb-2 text-center">Empowering your growth</h4>
+                <h4 className="text-lg font-semibold text-gray-700 mb-2 text-center">Empowering Your Growth</h4>
                 <div className="text-gray-600 text-left space-y-4">
                   <p>
                     At Visionnaires Capital, we specialise in helping corporate and financial investors execute strategic acquisitions across Southeast Asia and the broader Asia Pacific region.
