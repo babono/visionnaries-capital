@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
@@ -112,79 +113,17 @@ function parseNotionDatabase(databaseResults: NotionDatabaseItem[]): Project[] {
   return projects;
 }
 
-// Add Modal Component
-function ExplanationModal({ 
-  isOpen, 
-  onClose, 
-  explanation, 
-  projectType,
-  projectName
-}: { 
-  isOpen: boolean; 
-  onClose: () => void; 
-  explanation: string; 
-  projectType: string;
-  projectName?: string;
-}) {
-  if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-black opacity-40 transition-opacity"
-        onClick={onClose}
-      />
-      
-      {/* Modal */}
-      <div className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
-        {/* Header */}
-        <div className="bg-blue-900 text-white px-6 py-4 flex justify-between items-center">
-          <div>
-            <h3 className="text-lg font-semibold">
-              {projectName ? `${projectName} - Deal Explanation` : `Deal Explanation - ${projectType}`}
-            </h3>
-            {projectName && (
-              <p className="text-sm text-blue-200 mt-1">{projectType}</p>
-            )}
-          </div>
-          <button
-            onClick={onClose}
-            className="text-white hover:text-gray-200 transition-colors"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        
-        {/* Content */}
-        <div className="p-6 overflow-y-auto">
-          <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-            {explanation}
-          </p>
-        </div>
-        
-      </div>
-    </div>
-  );
-}
 
 // Flickity Slider Component
 function FlickitySlider({ projects }: { projects: Project[] }) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const flickityRef = useRef<FlickityInstance | null>(null);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
-  const openModal = (project: Project) => {
-    setSelectedProject(project);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedProject(null);
+  const handleProjectClick = (project: Project) => {
+    // Navigate to the detail page
+    router.push(`/track-record/${project.id}`);
   };
 
   useEffect(() => {
@@ -386,7 +325,10 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
               key={`project-${project.id}-${index}`}
               className="carousel-cell w-1/4 lg:w-1/4 md:w-1/3 sm:w-1/2 inline-block align-top mr-6"
             >
-              <div className="card-content bg-white rounded-lg shadow-lg overflow-hidden h-full flex flex-col">
+              <div 
+                className="card-content bg-white rounded-lg shadow-sm overflow-hidden h-full flex flex-col cursor-pointer hover:shadow-md  transition-all hover:scale-100 scale-99 duration-300"
+                onClick={() => handleProjectClick(project)}
+              >
                 {/* Type */}
                 <div className="bg-blue-900 text-white text-center px-4 h-12 flex items-center justify-center">
                   <h3 className="text-sm font-normal uppercase tracking-wide leading-tight">
@@ -454,17 +396,12 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
                   </div>
                 )}
 
-                {/* Explanation Button - only show if explanation exists */}
-                {project.explanation && (
-                  <div className="px-4 pb-2 text-center">
-                    <button
-                      onClick={() => openModal(project)}
-                      className="px-3 py-1 text-xs bg-sky-600 text-white rounded hover:bg-sky-700 transition-colors"
-                    >
-                      Explanation
-                    </button>
+                {/* Click to view details hint */}
+                <div className="px-4 pb-2 text-center">
+                  <div className="text-xs text-blue-600 hover:text-blue-800 transition-colors">
+                    Click to view details →
                   </div>
-                )}
+                </div>
 
                 {/* Year Footer - always at bottom */}
                 <div className="p-4 text-center">
@@ -477,16 +414,6 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
           ))}
         </div>
         
-        {/* Modal */}
-        {selectedProject && (
-          <ExplanationModal
-            isOpen={isModalOpen}
-            onClose={closeModal}
-            explanation={selectedProject.explanation || "No explanation available"}
-            projectType={selectedProject.type}
-            projectName={selectedProject.name}
-          />
-        )}
       </div>
     </div>
   );
