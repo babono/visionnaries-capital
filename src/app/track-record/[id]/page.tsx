@@ -285,9 +285,9 @@ export default function TrackRecordDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white flex flex-col">
         <Header />
-        <div className="min-h-[500px] flex items-center justify-center">
+        <div className="min-h-[500px] flex items-center justify-center flex-grow">
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-sky-600 mx-auto mb-4"></div>
             <h2 className="text-xl text-gray-900 mb-2">Loading Track Record Details...</h2>
@@ -300,9 +300,9 @@ export default function TrackRecordDetail() {
 
   if (error || !project) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white flex flex-col">
         <Header />
-        <div className="min-h-[500px] flex items-center justify-center">
+        <div className="min-h-[500px] flex items-center justify-center flex-grow">
           <div className="text-center">
             <h2 className="text-xl text-red-600 mb-4">Error</h2>
             <p className="text-gray-600 mb-6">{error || 'Track record not found'}</p>
@@ -343,7 +343,7 @@ export default function TrackRecordDetail() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white flex flex-col">
       <Header />
       
       {/* Hero Section */}
@@ -369,7 +369,7 @@ export default function TrackRecordDetail() {
       </section>
 
       {/* Content Section */}
-      <section className="py-16">
+      <section className="py-16 flex-grow">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back Button */}
           <div className="mb-8">
