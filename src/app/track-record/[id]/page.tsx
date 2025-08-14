@@ -1,12 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import { useParams } from "next/navigation";
-import Link from "next/link";
-
-import Header from "../../../components/Header";
-import Footer from "../../../components/Footer";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import Header from '../../../components/Header';
+import Footer from '../../../components/Footer';
 
 // Type definitions
 interface NotionDatabaseItem {
@@ -202,12 +200,10 @@ function NotionBlockRenderer({ block }: { block: NotionBlock }) {
       return (
         <div className="my-6">
           <div className="relative w-full h-64 md:h-96">
-            <Image
+            <img
               src={imageUrl}
               alt={block.image?.caption?.[0]?.plain_text || "Image"}
-              fill
-              className="object-contain rounded-lg"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="w-full h-full object-contain rounded-lg"
             />
           </div>
           {block.image?.caption?.[0]?.plain_text && (
@@ -397,12 +393,12 @@ export default function TrackRecordDetail() {
 
                 {project.logo1 && (
                   <div className="relative h-16 mb-4">
-                    <Image
+                      <img
                       src={project.logo1}
                       alt="Company Logo"
-                      fill
-                      className="object-contain object-left"
-                      sizes="300px"
+                      className="w-full h-full object-contain object-left"
+                      
+                      
                     />
                   </div>
                 )}
@@ -415,12 +411,12 @@ export default function TrackRecordDetail() {
 
                 {project.logo2 && (
                   <div className="relative h-20 bg-gray-50 rounded p-4 mb-4">
-                    <Image
+                      <img
                       src={project.logo2}
                       alt="Acquiring Company Logo"
-                      fill
-                      className="object-contain"
-                      sizes="300px"
+                      className="w-full h-full object-contain"
+                      
+                      
                     />
                   </div>
                 )}
