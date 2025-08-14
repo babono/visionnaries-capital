@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import Header from "../../components/Header";
@@ -341,13 +340,10 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
                   {/* Logo 1 - only show if exists */}
                   {project.logo1 && (
                     <div className="relative h-14 flex items-center justify-center">
-                      <Image
+                      <img
                         src={project.logo1}
                         alt="Logo 1"
-                        fill
-                        className="object-contain"
-                        sizes="220px"
-                        priority={index < 4}
+                        className="max-h-full object-contain"
                       />
                     </div>
                   )}
@@ -362,13 +358,10 @@ function FlickitySlider({ projects }: { projects: Project[] }) {
                   {/* Logo 2 - only show if exists */}
                   {project.logo2 && (
                     <div className="relative h-20 flex items-center justify-center bg-gray-50 rounded">
-                      <Image
+                      <img
                         src={project.logo2}
                         alt="Logo 2"
-                        fill
-                        className="object-contain"
-                        sizes="200px"
-                        priority={index < 4}
+                        className="max-h-full object-contain"
                       />
                     </div>
                   )}

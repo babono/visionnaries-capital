@@ -1,7 +1,6 @@
 "use client";
 import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -235,22 +234,18 @@ export default function Home() {
                   >
                     {project.logo1 ? (
                       <div className="relative w-full h-16">
-                        <Image
+                        <img
                           src={project.logo1}
                           alt={`Company ${index + 1}`}
-                          fill
-                          className="object-contain"
-                          sizes="200px"
+                          className="w-full h-full object-contain"
                         />
                       </div>
                     ) : project.logo2 ? (
                       <div className="relative w-full h-16">
-                        <Image
+                        <img
                           src={project.logo2}
                           alt={`Company ${index + 1}`}
-                          fill
-                          className="object-contain"
-                          sizes="200px"
+                          className="w-full h-full object-contain"
                         />
                       </div>
                     ) : (
