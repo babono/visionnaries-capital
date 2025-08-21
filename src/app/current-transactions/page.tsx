@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Head from "next/head";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 
@@ -222,7 +223,22 @@ export default function LiveTransactions() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <>
+      <Head>
+        <title>Live Transactions - Current M&A Deals | Visionnaires Capital</title>
+        <meta 
+          name="description" 
+          content="Explore current M&A transactions and live deals managed by Visionnaires Capital. Access deal teasers for ongoing cross-border opportunities across Southeast Asia." 
+        />
+        <meta 
+          name="keywords" 
+          content="live transactions, current deals, M&A opportunities, deal teasers, ongoing transactions, cross-border deals, Southeast Asia deals, active mandates" 
+        />
+        <meta property="og:title" content="Live Transactions - Current M&A Deals | Visionnaires Capital" />
+        <meta property="og:description" content="Explore current M&A transactions and live deals managed by Visionnaires Capital." />
+        <meta property="og:url" content="/current-transactions" />
+      </Head>
+      <div className="min-h-screen bg-white">
       <Header />
       {/* Hero Section */}
       <section className="relative text-white pt-20">
@@ -387,6 +403,7 @@ export default function LiveTransactions() {
         </div>
       )}
       <Footer />
-    </div>
+      </div>
+    </>
   );
 }

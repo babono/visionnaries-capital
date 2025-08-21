@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Head from "next/head";
 import { useRouter } from "next/navigation";
 
 import Header from "../../components/Header";
@@ -458,11 +459,27 @@ export default function TrackRecord() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <>
+      <Head>
+        <title>Track Record - M&A Transactions | Visionnaires Capital</title>
+        <meta 
+          name="description" 
+          content="Explore Visionnaires Capital's track record of successful M&A transactions across Southeast Asia. US$800M+ in deal value with strategic buyers from Japan, U.S., and Europe." 
+        />
+        <meta 
+          name="keywords" 
+          content="M&A track record, successful transactions, cross-border deals, Southeast Asia M&A, strategic buyers, transaction history, merger acquisition deals" 
+        />
+        <meta property="og:title" content="Track Record - M&A Transactions | Visionnaires Capital" />
+        <meta property="og:description" content="Explore Visionnaires Capital's track record of successful M&A transactions across Southeast Asia." />
+        <meta property="og:url" content="/track-record" />
+      </Head>
+      <div className="min-h-screen bg-white">
       <Header />
       <TrackRecordContent projects={projects} loading={loading} />
       <Footer />
-    </div>
+      </div>
+    </>
   );
 }
 

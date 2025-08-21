@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Header from '../../../components/Header';
@@ -339,7 +340,22 @@ export default function TrackRecordDetail() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <>
+      <Head>
+        <title>{project?.name ? `${project.name} - Track Record | Visionnaires Capital` : 'Track Record Detail | Visionnaires Capital'}</title>
+        <meta 
+          name="description" 
+          content={project?.explanation || `Detailed view of ${project?.name || 'a successful M&A transaction'} completed by Visionnaires Capital. Cross-border deal expertise across Southeast Asia.`} 
+        />
+        <meta 
+          name="keywords" 
+          content={`${project?.name || 'M&A deal'}, track record detail, cross-border transaction, ${project?.country || 'Southeast Asia'}, merger acquisition, strategic buyer, ${project?.year || ''}`} 
+        />
+        <meta property="og:title" content={project?.name ? `${project.name} - Track Record | Visionnaires Capital` : 'Track Record Detail | Visionnaires Capital'} />
+        <meta property="og:description" content={project?.explanation || `Detailed view of a successful M&A transaction completed by Visionnaires Capital.`} />
+        <meta property="og:url" content={`/track-record/${id}`} />
+      </Head>
+      <div className="min-h-screen bg-white flex flex-col">
       <Header />
       
       {/* Hero Section */}
@@ -512,6 +528,7 @@ export default function TrackRecordDetail() {
       </section>
 
       <Footer />
-    </div>
+      </div>
+    </>
   );
 }

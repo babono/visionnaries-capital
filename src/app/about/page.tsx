@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from 'react';
+import Head from 'next/head';
 import { Users, Award, Handshake, DollarSign } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -14,7 +15,22 @@ export default function About() {
   const [activeTab, setActiveTab] = useState('overview');
 
   return (
-    <div className="min-h-screen bg-white">
+    <>
+      <Head>
+        <title>About Visionnaires Capital - Boutique Cross-Border M&A Advisory</title>
+        <meta 
+          name="description" 
+          content="Founded in 2011, Visionnaires Capital is a leading boutique M&A advisory firm specializing in cross-border transactions for Southeast Asian companies. 15+ years experience, US$800M+ deals closed." 
+        />
+        <meta 
+          name="keywords" 
+          content="about Visionnaires Capital, M&A advisory firm, cross-border transactions, Southeast Asia M&A, boutique investment bank, merger acquisition advisory, international buyers, strategic exits" 
+        />
+        <meta property="og:title" content="About Visionnaires Capital - Boutique Cross-Border M&A Advisory" />
+        <meta property="og:description" content="Founded in 2011, Visionnaires Capital is a leading boutique M&A advisory firm specializing in cross-border transactions for Southeast Asian companies." />
+        <meta property="og:url" content="/about" />
+      </Head>
+      <div className="min-h-screen bg-white">
       <Header />
 
       {/* Hero Section */}
@@ -266,6 +282,7 @@ export default function About() {
       </section>      
 
       <Footer />
-    </div>
+      </div>
+    </>
   );
 }
