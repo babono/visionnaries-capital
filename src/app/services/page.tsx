@@ -1,6 +1,28 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+
+export const metadata: Metadata = {
+  title: 'M&A Advisory Services - Buy-side & Sell-side | Visionnaires Capital',
+  description: 'Comprehensive M&A advisory services including sell-side advisory for maximum value and buy-side advisory for strategic acquisitions across Southeast Asia and Asia Pacific.',
+  keywords: [
+    'M&A advisory services',
+    'sell-side advisory',
+    'buy-side advisory',
+    'merger acquisition services',
+    'cross-border M&A',
+    'strategic acquisitions',
+    'valuation advisory',
+    'transaction services',
+    'Southeast Asia M&A'
+  ],
+  openGraph: {
+    title: 'M&A Advisory Services - Buy-side & Sell-side | Visionnaires Capital',
+    description: 'Comprehensive M&A advisory services including sell-side advisory for maximum value and buy-side advisory for strategic acquisitions.',
+    url: '/services',
+  },
+};
 
 export default function Services() {
   return (

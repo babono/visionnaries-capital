@@ -1,6 +1,25 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+
+export const metadata: Metadata = {
+  title: 'Contact Visionnaires Capital - Singapore & Hong Kong Offices',
+  description: 'Contact Visionnaires Capital for cross-border M&A advisory services. Offices in Singapore (Suntec Tower) and Hong Kong (Lippo Centre). Email: info@vision-cap.com',
+  keywords: [
+    'contact Visionnaires Capital',
+    'M&A advisory Singapore',
+    'M&A advisory Hong Kong',
+    'cross-border M&A contact',
+    'investment banking Singapore',
+    'merger acquisition advisory contact'
+  ],
+  openGraph: {
+    title: 'Contact Visionnaires Capital - Singapore & Hong Kong Offices',
+    description: 'Contact Visionnaires Capital for cross-border M&A advisory services. Offices in Singapore and Hong Kong.',
+    url: '/contact',
+  },
+};
 
 const contacts = [
   {
