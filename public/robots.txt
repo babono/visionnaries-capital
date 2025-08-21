@@ -1,0 +1,62 @@
+# Robots.txt for Visionnaries Capital
+# https://visionnariescapital.com
+
+User-agent: *
+Allow: /
+
+# Allow all main pages
+Allow: /about
+Allow: /services
+Allow: /track-record
+Allow: /current-transactions
+Allow: /contact
+
+# Block admin and API routes from indexing
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Block any potential old paths that might still be indexed
+# Add specific old paths here if you know them
+Disallow: /personnel/founders-profile
+Disallow: /corporate-profile
+Disallow: /services/capital-advisory
+Disallow: /services/network
+Disallow: /services/merger-acquisition
+Disallow: /about-us-3
+Disallow: /services/financial-strategy-and-corporate-advisory
+Disallow: /portfolio_tag/merger-acquisition
+Disallow: /services/valuation-advisory
+Disallow: /portfolio/my-republic
+Disallow: /team-frame-style
+Disallow: /portfolio_tag/growth-capital
+Disallow: /portfolio/pd
+Disallow: /gallery
+Disallow: /portfolio/express-in-music
+Disallow: /portfolio/autobot
+Disallow: /portfolio/project-skin
+Disallow: /author/vp-admin
+Disallow: /portfolio/omni
+Disallow: /portfolio/project-cyber
+Disallow: /portfolio/qoo-10
+Disallow: /portfolio/project-lab
+Disallow: /portfolio/reka-health
+Disallow: /author/vp-admin/page/2
+Disallow: /even-the-all-powerful-pointing
+
+
+# Allow search engines to access static assets
+Allow: *.css
+Allow: *.js
+Allow: *.png
+Allow: *.jpg
+Allow: *.jpeg
+Allow: *.gif
+Allow: *.svg
+Allow: *.pdf
+
+# Sitemap location
+Sitemap: https://visionnariescapital.com/sitemap.xml
+
+# Crawl-delay (optional - be careful with this)
+# Crawl-delay: 1
